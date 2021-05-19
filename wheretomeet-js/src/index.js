@@ -1,17 +1,61 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import ReactDOM from "react-dom";
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+function GroupList() {
+  return (
+    <>
+      <Title />
+      <Group />
+      <Additional />
+    </>
+  );
+}
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+function Title() {
+  return (
+    <>
+      <h1>Where to Meet test build</h1>
+    </>
+  );
+}
+
+function Group() {
+  return (
+    <>
+      <ul>
+        <li>
+          <a href="https://www.fflogs.com/character/na/gilgamesh/ai%20zera">jeni</a>
+        </li>
+        <li>
+          <a href="https://www.fflogs.com/character/na/gilgamesh/kyenx%20sol">thomas</a>
+        </li>
+        <li>
+          <a href="https://www.fflogs.com/character/na/gilgamesh/sistine%20stella">stella</a>
+        </li>
+        <li>
+          <a href="https://www.fflogs.com/character/na/gilgamesh/carrot%20order">carrot</a>
+        </li>
+        <li>
+          <a href="https://www.fflogs.com/character/na/gilgamesh/cara%20kestus">jerry</a>
+        </li>
+        <li>
+          <a href="https://www.fflogs.com/character/na/gilgamesh/row%20row">row row</a>
+        </li>
+      </ul>
+    </>
+  );
+}
+
+function Additional() {
+  return (
+    <>
+      <ul>
+        <li>
+          <a href=" https://fflogs.com">fflogs</a>
+        </li>
+        <img src="https://i.imgur.com/qW6cpou.png" alt="aba" />
+      </ul>
+    </>
+  );
+}
+
+ReactDOM.render(<GroupList />, document.getElementById("root"));
