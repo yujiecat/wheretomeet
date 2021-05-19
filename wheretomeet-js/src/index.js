@@ -23,22 +23,32 @@ function Group() {
     <>
       <ul>
         <li>
-          <a href="https://www.fflogs.com/character/na/gilgamesh/ai%20zera">jeni</a>
+          <a href="https://www.fflogs.com/character/na/gilgamesh/ai%20zera">
+            jeni</a>
         </li>
         <li>
-          <a href="https://www.fflogs.com/character/na/gilgamesh/kyenx%20sol">thomas</a>
+          <a href="https://www.fflogs.com/character/na/gilgamesh/kyenx%20sol">
+            thomas</a>
         </li>
         <li>
-          <a href="https://www.fflogs.com/character/na/gilgamesh/sistine%20stella">stella</a>
+          <a href="https://www.fflogs.com/character/na/gilgamesh/sistine%20stella">
+            stella
+            </a>
         </li>
         <li>
-          <a href="https://www.fflogs.com/character/na/gilgamesh/carrot%20order">carrot</a>
+          <a href="https://www.fflogs.com/character/na/gilgamesh/carrot%20order">
+            carrot
+            </a>
         </li>
         <li>
-          <a href="https://www.fflogs.com/character/na/gilgamesh/cara%20kestus">jerry</a>
+          <a href="https://www.fflogs.com/character/na/gilgamesh/cara%20kestus">
+            jerry
+            </a>
         </li>
         <li>
-          <a href="https://www.fflogs.com/character/na/gilgamesh/row%20row">row row</a>
+          <a href="https://www.fflogs.com/character/na/gilgamesh/row%20row">
+            row row
+            </a>
         </li>
       </ul>
     </>
