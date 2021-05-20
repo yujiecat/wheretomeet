@@ -26,7 +26,7 @@ public class GroupController {
 		return g.toString();
 	}
 
-	@PostMapping("groups")
+	@PostMapping("/groups")
 	public void createGroup(String groupName) {
 		Group g = new Group(groupName, null);
 		groupRepo.save(g);

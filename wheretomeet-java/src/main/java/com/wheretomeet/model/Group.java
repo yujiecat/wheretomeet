@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "group")
+@Table(name = "groups_table")
 public class Group {
 
     @Id
@@ -20,24 +20,40 @@ public class Group {
     @Column(name = "members")
     private ArrayList<User> groupMembers;
 
+    public Group() {}
 
     public Group(String groupName, User...users) {
         this.groupName = groupName;
         this.groupMembers = new ArrayList<User>();
-        for (User user : users) {
-            groupMembers.add(user);
+        if(users != null){
+            for (User user : users) {
+                groupMembers.add(user);
+            }
         }
+    }
+
+    public String getGroupName() {
+        return groupName;
+    }
+    
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
     }
 
     public ArrayList<User> getGroupMembers() {
         return groupMembers;
     }
 
-    public void setGroupName(String groupName) {
-        this.groupName = groupName;
+    public void setGroupMembers(ArrayList<User> members) {
+        this.groupMembers = members;
     }
 
-    public String getGroupName() {
-        return groupName;
+    public Long getGroupId(){
+        return groupId;
     }
+
+    public void setGroupId(Long id) {
+        this.groupId = id;
+    }
+
 }

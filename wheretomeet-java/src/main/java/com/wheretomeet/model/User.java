@@ -8,16 +8,17 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "user")
+@Table(name = "users_table")
 public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+
+    private @Id @GeneratedValue Long userId;
     @Column(name = "username")
     private String username;
     @Column(name = "password")
     private String password;
     
+    public User() {}
+
     public User(String username, String password) {
         this.username = username;
         this.password = password;
@@ -27,16 +28,24 @@ public class User {
         return username;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
     public void setUsername(String username) {
         this.username = username;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long id) {
+        this.userId = id;
     }
 
 } 
