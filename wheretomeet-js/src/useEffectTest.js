@@ -1,6 +1,6 @@
 import React from 'react';
 
-const url = 'localhost:8080/users';
+const url = '/users';
 
 const useEffectTest = () => {
 	const [users, setUsers] = React.useState([]);
@@ -9,6 +9,7 @@ const useEffectTest = () => {
 		const response = await fetch(url);
 		const users = await response.json();
 		setUsers(users);
+		console.log(users);
 	}
 
 	React.useEffect(() => {
@@ -18,12 +19,13 @@ const useEffectTest = () => {
 	return(<>
 	<ul>
 		{users.map((acc) => {
-			const {id, user, password} = acc;
-			return <li key = {id}>{`${user}, ${password}`}</li>
+			const {username, userId, password} = acc;
+			return(<li key= {userId}>{`${username}, ${password}`}</li>);
 		})}
 	</ul>
-	</>)
+	</>);
 
 }
+
 
 export default useEffectTest;

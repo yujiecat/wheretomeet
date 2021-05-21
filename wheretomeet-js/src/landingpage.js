@@ -17,8 +17,8 @@ const LandingPage = () => {
 	<section style = {{margin: '10%'}}>
 		<h2>{title}</h2>
 		<p>{text}</p>
-		<button type="button" class="btn btn-primary btn-lg" onClick = {() => login('Login')} >Sign Up/Sign In</button>
-		<button type="button" class="btn btn-secondary btn-lg" disabled>Create Group</button>
+		<button type="button" className="btn btn-primary btn-lg" onClick = {() => login('Login')} >Sign Up/Sign In</button>
+		<button type="button" className="btn btn-secondary btn-lg" disabled>Create Group</button>
 		<UseEffectTest />
 	</section>
 
