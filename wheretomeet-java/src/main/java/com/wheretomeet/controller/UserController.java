@@ -36,5 +36,4 @@ public class UserController {
 	public User createUser(@RequestBody User user) {
 		return userRepo.save(user);
 	}
-// curl -X POST localhost:8080/users -H 'Content-type:application/json' -d '{"username": "Samwise Gamgee", "password": "gardener"}'
 }
