@@ -1,4 +1,5 @@
 import React from 'react';
+import UseEffectTest from './useEffectTest';
 
 const LandingPage = () => {
 
@@ -18,6 +19,7 @@ const LandingPage = () => {
 		<p>{text}</p>
 		<button type="button" class="btn btn-primary btn-lg" onClick = {() => login('Login')} >Sign Up/Sign In</button>
 		<button type="button" class="btn btn-secondary btn-lg" disabled>Create Group</button>
+		<UseEffectTest />
 	</section>
 
 	</>)
