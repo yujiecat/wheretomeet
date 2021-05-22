@@ -1,5 +1,9 @@
 import ReactDOM from "react-dom";
-import LandingPage from './pages/landingpage.js'
+import Homepage from './pages/homepage.js'
+import SignIn from './pages/signinpage.js';
+import SignUp from './pages/signuppage.js';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 if(module.hot){
   module.hot.accept()
@@ -8,7 +12,9 @@ if(module.hot){
 function MainPage() {
   return (
     <>
-      <LandingPage />
+      <Homepage />
+      <SignIn />
+      <SignUp />
     </>
   );
 }
