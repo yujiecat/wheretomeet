@@ -1,5 +1,5 @@
 import React from 'react';
-import UseEffectTest from './useEffectTest';
+import UseEffectTest from '../helpers/useEffectTest';
 
 const LandingPage = () => {
 

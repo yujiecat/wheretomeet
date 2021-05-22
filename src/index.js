@@ -1,5 +1,5 @@
 import ReactDOM from "react-dom";
-import LandingPage from './landingpage.js'
+import LandingPage from './pages/landingpage.js'
 
 if(module.hot){
   module.hot.accept()
