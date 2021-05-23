@@ -1,23 +1,13 @@
-import ReactDOM from "react-dom";
-import Homepage from './pages/homepage.js'
-import SignIn from './pages/signinpage.js';
-import SignUp from './pages/signuppage.js';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import './styles/index.css'
+import App from './App'
+import * as serviceWorker from './helpers/serviceWorker'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+ReactDOM.render(<App />, document.getElementById("root"));
 
-if(module.hot){
-  module.hot.accept()
-}
-
-function MainPage() {
-  return (
-    <>
-      <Homepage />
-      <SignIn />
-      <SignUp />
-    </>
-  );
-}
-
-
-ReactDOM.render(<MainPage />, document.getElementById("root"));
+// If you want your app to work offline and load faster, you can change
+// unregister() to register() below. Note this comes with some pitfalls.
+// Learn more about service workers: https://bit.ly/CRA-PWA
+serviceWorker.unregister()

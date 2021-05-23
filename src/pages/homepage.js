@@ -65,7 +65,7 @@ export default function Homepage() {
                     Sign Up
                   </Button>
                 </Grid>
-				<Grid item>
+				        <Grid item>
                   <Button variant="outlined" color="primary">
                     Create A Meetup
                   </Button>
