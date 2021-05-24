@@ -66,7 +66,7 @@ export default function SignUp() {
           <Formik
             initialValues={{
               email: '',
-              firstName: '',
+              displayName: '',
               userName: '',
               password: '',
               policy: false
@@ -74,15 +74,28 @@ export default function SignUp() {
             validationSchema={
               Yup.object().shape({
                 email: Yup.string().email('Must be a valid email.').max(255).required('Email is required.'),
-                firstName: Yup.string().min(3).max(255).required('First name is required.'),
+                displayName: Yup.string().min(3).max(255).required('Display name is required.'),
                 userName: Yup.string().min(3).max(30).required('Username is required.'),
                 password: Yup.string().min(6).max(255).required('Password is required.'),
                 policy: Yup.boolean().oneOf([true], 'This field must be checked.')
               })
             }
-            onSubmit={() => {
-              console.log('ayaya');
+            onSubmit={(values) => {
+              const request = {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  displayName: values.displayName,
+                  username: values.userName,
+                  email: values.email,
+                  password: values.password,
+                }),
+              };
+              fetch('/users', request);
             }}
+
           >
             {({
               errors,
@@ -97,15 +110,15 @@ export default function SignUp() {
                 <Box sx={{ mb: 3 }}>
                 </Box>
                 <TextField
-                  error={Boolean(touched.firstName && errors.firstName)}
+                  error={Boolean(touched.displayName && errors.displayName)}
                   fullWidth
-                  helperText={touched.firstName && errors.firstName}
-                  label="First Name *"
+                  helperText={touched.displayName && errors.displayName}
+                  label="Display Name *"
                   margin="normal"
-                  name="firstName"
+                  name="displayName"
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  value={values.firstName}
+                  value={values.displayName}
                   variant="outlined"
                 />
                 <TextField
