@@ -5,7 +5,8 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import Link from '@material-ui/core/Link';
+// import Link from '@material-ui/core/Link';
+import { Link } from 'react-router-dom';
 
 function Copyright() {
   return (
@@ -56,12 +57,12 @@ export default function Homepage() {
             <div className={classes.heroButtons}>
               <Grid container spacing={2} justify="center">
                 <Grid item>
-                  <Button variant="contained" color="primary">
+                  <Button component={Link} to="/login" variant="contained" color="primary">
                     Sign In
                   </Button>
                 </Grid>
                 <Grid item>
-                  <Button variant="outlined" color="primary">
+                  <Button component={Link} to="/register" variant="outlined" color="primary">
                     Sign Up
                   </Button>
                 </Grid>
