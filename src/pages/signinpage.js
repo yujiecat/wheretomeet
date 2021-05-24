@@ -5,7 +5,8 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
+// import Link from '@material-ui/core/Link';
+import { Link } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -18,7 +19,7 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="localhost:3000">
+      <Link color="inherit" to="/">
 		Wheretomeet
       </Link>{' '}
       {new Date().getFullYear()}
@@ -58,7 +59,7 @@ export default function SignIn() {
     fetch('/user/email/' + email)
     .then(response => response.json())
     .then(data => { // TODO: better handling of sign in via JWT and just routing to sign in
-      if(email == data.email && password == data.password) {
+      if(email === data.email && password === data.password) {
         alert('signed into ' + data.username);
       }
       else {
@@ -129,7 +130,7 @@ export default function SignIn() {
               </Link>
             </Grid>
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link to="/register" variant="body2">
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>
