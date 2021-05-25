@@ -1,39 +1,20 @@
 import React from "react";
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link
-  } from "react-router-dom";
+import { useRoutes } from "react-router-dom";
+import routes from 'src/routes.js';
+import 'react-perfect-scrollbar/dist/css/styles.css';
+import { ThemeProvider } from '@material-ui/core';
+import GlobalStyles from 'src/components/GlobalStyles';
+import theme from 'src/theme';
 
-import Home from './pages/homepage'
-import Login from './pages/signinpage'
-import Register from './pages/signuppage'
+const App = () => {
+    const routing = useRoutes(routes);
 
-function App() {
   return (
-    <Router>
-        <div style={{height: "100vh", alignItems: "stretch" }}>
-            <div>
-                <div className="navigationBar">
-                    <Link className="navButton" to="/">Home</Link>
-                    {/* <Link className="navButton" to="/login">Login</Link>
-                    <Link className="navButton" to="/register">Register</Link> */}
-                </div>
-                <Switch>
-                    <Route exact path="/">
-                        <Home />
-                    </Route>
-                    <Route path="/login">
-                        <Login />
-                    </Route>
-                    <Route path="/register">
-                        <Register />
-                    </Route>
-                </Switch>
-            </div>
-        </div>
-    </Router>
+    <ThemeProvider theme={theme}>
+      <GlobalStyles />
+      {routing}
+    </ThemeProvider>
+
   );
 }
 

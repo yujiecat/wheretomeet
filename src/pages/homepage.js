@@ -5,14 +5,13 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-// import Link from '@material-ui/core/Link';
 import { Link } from 'react-router-dom';
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'© '}
-      <Link color="inherit" href="localhost:3000">
+      <Link color="inherit" href="localhost:3000" to="/">
         Wheretomeet
       </Link>{' '}
       {new Date().getFullYear()}

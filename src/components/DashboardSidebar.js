@@ -5,9 +5,9 @@ import {
   Avatar,
   Box,
   Drawer,
-  Hidden,
   Typography,
 } from '@material-ui/core';
+import Hidden from '@material-ui/core/Hidden';
 import {
   Settings as SettingsIcon,
   User as UserIcon,
@@ -53,7 +53,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
     if (openMobile && onMobileClose) {
       onMobileClose();
     }
-  }, [location.pathname]);
+  }, [location.pathname, onMobileClose, openMobile]);
 
   const content = (
     <Box

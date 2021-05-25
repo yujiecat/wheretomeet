@@ -1,5 +1,6 @@
 import { v4 as uuid } from 'uuid';
 // ignore
+// eslint-disable-next-line import/no-anonymous-default-export
 export default [
   {
     id: uuid(),
