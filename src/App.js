@@ -17,8 +17,8 @@ function App() {
             <div>
                 <div className="navigationBar">
                     <Link className="navButton" to="/">Home</Link>
-                    <Link className="navButton" to="/login">Login</Link>
-                    <Link className="navButton" to="/register">Register</Link>
+                    {/* <Link className="navButton" to="/login">Login</Link>
+                    <Link className="navButton" to="/register">Register</Link> */}
                 </div>
                 <Switch>
                     <Route exact path="/">
