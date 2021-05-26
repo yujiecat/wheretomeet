@@ -5,6 +5,8 @@ import {
   Grid
 } from '@material-ui/core';
 import Meetups from 'src/components/dashboard/Meetups';
+import Map from 'src/helpers/Map';
+import AutoCompleteLocation from 'src/helpers/AutoComplete';
 
 const Dashboard = () => (
   <>
@@ -38,8 +40,9 @@ const Dashboard = () => (
             sm={6}
             xl={3}
             xs={12}
+            id="map"
           >
-            <Meetups />
+            <Map />
           </Grid>
         </Grid>
       </Container>
