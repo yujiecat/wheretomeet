@@ -19,14 +19,14 @@ const home = [
 ];
 
 function Map(props) {
+	const {height, width, zoom} = props;
 
 	//grab home locations + suggestions here for markers + distance
-
-	const containerStyle = {
-		width: '40rem',
-		height: '30rem',
-		display: 'flex'
+		const containerStyle = {
+		width: height,
+		height: width
 	};
+
 	const coords = { lat: 49.233741, lng: -123.124675 }
 	const { isLoaded } = useJsApiLoader({
 		id: 'google-map-script',
@@ -53,7 +53,7 @@ function Map(props) {
 		<GoogleMap
 			mapContainerStyle = { containerStyle }
 			center = { coords }
-			zoom = { 11 }
+			zoom = { zoom }
 			onLoad = { onLoad }
 			onUnmount = { onUnmount }
 		>
