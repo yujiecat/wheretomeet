@@ -10,12 +10,14 @@ import Settings from 'src/pages/Settings';
 import Home from 'src/pages/homepage';
 import Login from 'src/pages/signinpage';
 import Register from 'src/pages/signuppage';
+import Group from 'src/pages/Group';
 
 const routes = [
   {
     path: 'app',
     element: <DashboardLayout />,
     children: [
+      { path: 'group', element: <Group />},
       { path: 'account', element: <Account /> },
       { path: 'customers', element: <FriendList /> },
       { path: 'dashboard', element: <Dashboard /> },
@@ -28,6 +30,7 @@ const routes = [
     path: '/',
     element: <MainLayout />,
     children: [
+      { path: 'group', element: <Group />},
       { path: '', element: <Home />},
       { path: 'login', element: <Login /> },
       { path: 'register', element: <Register /> },

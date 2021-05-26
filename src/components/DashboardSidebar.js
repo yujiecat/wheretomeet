@@ -35,7 +35,7 @@ const items = [
     title: 'Friends'
   },
   {
-    href: '/app/products',
+    href: '/app/group',
     icon: UserIcon,
     title: 'Profile'
   },
