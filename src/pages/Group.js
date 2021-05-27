@@ -7,6 +7,7 @@ import {
 } from '@material-ui/core';
 import Map from 'src/helpers/Map.js';
 import PlacesAutocomplete from 'src/helpers/AutoComplete.js';
+import MessageList from 'src/helpers/MessageList.js';
 
 // group design
 const GroupDashboard = () => (
@@ -45,6 +46,7 @@ const GroupDashboard = () => (
         >
 			<PlacesAutocomplete />
         </Box>
+		  <MessageList />
       </Container>
     </Box>
   </>
