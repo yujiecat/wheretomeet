@@ -53,7 +53,7 @@ function Map(props) {
 		<GoogleMap
 			mapContainerStyle = { containerStyle }
 			center = { coords }
-			zoom = { zoom }
+			setZoom = { zoom }
 			onLoad = { onLoad }
 			onUnmount = { onUnmount }
 		>
