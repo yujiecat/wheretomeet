@@ -6,6 +6,7 @@ import {
   Grid,
 } from '@material-ui/core';
 import Map from 'src/helpers/Map.js';
+import PlacesAutocomplete from 'src/helpers/AutoComplete.js';
 
 // group design
 const GroupDashboard = () => (
@@ -20,9 +21,9 @@ const GroupDashboard = () => (
         py: 3
       }}
     >
-      <Container maxHeight="lg">
+      <Container maxheight="lg">
 		<Box display='flex' justifyContent='center' sx={{pt: 3}}>
-			<Map height='50rem' width='25rem' zoom='11'/>
+			<Map height='60rem' width='25rem' zoom='11'/>
 		</Box>
         <Box sx={{ pt: 3 }}>
           <Grid
@@ -42,6 +43,7 @@ const GroupDashboard = () => (
             pt: 3
           }}
         >
+			<PlacesAutocomplete />
         </Box>
       </Container>
     </Box>
