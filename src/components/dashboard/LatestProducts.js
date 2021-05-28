@@ -78,6 +78,18 @@ const LatestProducts = (props) => {
   const handleChange = (i) => {
     console.log('hey');
     setSelectedIndex(i);
+
+    // TODO: we'll need to populate actual group cards on the sidebar and store the each group id on the cards somewhere,
+    // then we send the id here to grab the specific group details.
+    const request = fetch('/group/id/' + "123456789")
+    .then(response => {
+        if(response.ok) {
+          alert('retrieved group');
+        }
+        else {
+          alert('error retrieving group... :(');
+        }
+    });
   };
 
   const hover = () => {
