@@ -9,6 +9,8 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 export default function CreateGroup() {
   const [open, setOpen] = React.useState(false);
+  const [groupName, setGroupName] = React.useState('');
+  const [groupPassword, setGroupPassword] = React.useState('');
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -19,9 +21,31 @@ export default function CreateGroup() {
   };
 
   const handleSubmit = () => {
-	  console.log('owo')
-  };
 
+    const request = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        groupName: groupName,
+        groupPassword: groupPassword,
+      }),
+    };
+
+    //TODO: redirect straight to group page or smth
+    fetch('/groups', request)
+    .then(response => {
+        if(response.ok){
+          alert("Group created!");
+        }
+        else {
+          alert("Error in creating group :(");
+        }
+      console.log('owo');
+    });
+
+  }
   return (
     <div>
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
@@ -40,6 +64,9 @@ export default function CreateGroup() {
             label="Group Name *"
             type="string"
             fullWidth
+            onInput = {e => setGroupName(
+              e.target.value
+            )}
           />
 		<TextField
             margin="dense"
@@ -47,6 +74,9 @@ export default function CreateGroup() {
             label="Group Password *"
             type="string"
             fullWidth
+            onInput = {e => setGroupPassword(
+              e.target.value
+            )}
 			sx={{mt: 3, mb: 3}}
           />
 		  <div>
