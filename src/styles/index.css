@@ -318,13 +318,3 @@ p {
   text-transform: capitalize;
   cursor: pointer;
 }
-
-/* Custom CSS goes below */
-.navigationBar {
-  text-align: center;
-}
-
-.navButton {
-  padding-left: 1vw;
-  padding-right: 1vw;
-}

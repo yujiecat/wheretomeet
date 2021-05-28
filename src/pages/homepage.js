@@ -6,6 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { Link } from 'react-router-dom';
+import CreateGroup from 'src/helpers/CreateGroup.js';
 
 function Copyright() {
   return (
@@ -66,9 +67,7 @@ export default function Homepage() {
                   </Button>
                 </Grid>
 				        <Grid item>
-                  <Button variant="outlined" color="primary">
-                    Create A Meetup
-                  </Button>
+                  <CreateGroup />
                 </Grid>
               </Grid>
             </div>
