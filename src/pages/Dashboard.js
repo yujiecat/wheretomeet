@@ -5,6 +5,7 @@ import {
   Grid
 } from '@material-ui/core';
 import Meetups from 'src/components/dashboard/Meetups';
+import CreateGroup from 'src/helpers/CreateGroup.js';
 // import Map from 'src/helpers/Map';
 // import AutoComplete from 'src/helpers/AutoComplete';
 
@@ -21,7 +22,7 @@ const Dashboard = () => (
       }}
     >
       <Container maxWidth="lg">
-        <Grid
+        <Grid maxWidth="lg"
           container
           spacing={3}
         >
@@ -55,7 +56,7 @@ const Dashboard = () => (
             xl={3}
             xs={12}
           >
-            {/* <AutoComplete /> */}
+            <CreateGroup />
           </Grid>
         </Grid>
       </Grid>
