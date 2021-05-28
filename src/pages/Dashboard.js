@@ -28,12 +28,13 @@ const Dashboard = () => (
         >
           <Grid
             item
-            lg={4}
+            lg={6}
             sm={6}
-            xl={3}
+            xl={4}
             xs={12}
           >
-            <Meetups />
+            <Meetups
+             />
           </Grid>
           <Grid
             item

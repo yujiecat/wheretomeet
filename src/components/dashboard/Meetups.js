@@ -1,8 +1,9 @@
 import {
   Card,
-  CardContent,
+  // CardContent,
   Grid,
-  Typography
+  Typography,
+  Container,
 } from '@material-ui/core';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
@@ -13,16 +14,19 @@ const Meetups = (props) => (
     sx={{
       height: '100%',
       display: 'flex',
+      alignItems: 'center',
       p: 1
     }}
     {...props}
   >
-    <CardContent>
+      <Container>        
       <Grid
         container
-        spacing={3}
-        sx={{ justifyContent: 'space-between' }}
-      >
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+        }}
+        >
         <Grid item>
           <Typography
             color="textSecondary"
@@ -32,13 +36,13 @@ const Meetups = (props) => (
             Future Meetups
           </Typography>
         </Grid>
+      </Grid>
         <Grid item>
           <Calendar
             calendarType="US"
           />
         </Grid>
-      </Grid>
-    </CardContent>
+     </Container>
   </Card>
 );
 
