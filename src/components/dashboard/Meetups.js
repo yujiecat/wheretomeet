@@ -10,7 +10,7 @@ import 'react-calendar/dist/Calendar.css';
 
 const Meetups = (props) => (
 
-  <Card maxWidth="lg"
+  <Card 
     sx={{
       height: '100%',
       display: 'flex',
