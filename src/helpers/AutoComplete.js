@@ -75,7 +75,10 @@
 //   );
 // };
 
-import usePlacesAutocomplete from "use-places-autocomplete";
+import usePlacesAutocomplete, {
+  getGeocode,
+  getLatLng,
+} from "use-places-autocomplete";
 import {
   Combobox,
   ComboboxInput,
@@ -99,6 +102,13 @@ const PlacesAutocomplete = () => {
   };
 
   const handleSelect = (val) => {
+	getGeocode({ address: val })
+	.then((results) => getLatLng(results[0]))
+	.then(({ lat, lng }) => {
+		console.log("coords: ", { lat, lng })
+	}).catch((err) => {
+		console.log("Uh oh: ", err)
+	})
     setValue(val, false);
   };
 

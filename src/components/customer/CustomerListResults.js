@@ -15,8 +15,13 @@ import {
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import getInitials from 'src/utils/getInitials';
 
-const CustomerListResults = ({ customers, ...rest }) => (
-  <Card {...rest}>
+const CustomerListResults = ({ customers, ...rest }) => {
+
+  const handleClick = () => {
+    console.log('a');
+  };
+
+  return (<Card {...rest}>
     <PerfectScrollbar>
       <Box sx={{ display: 'flex', minWidth: 450 }}>
         <Table>
@@ -61,6 +66,7 @@ const CustomerListResults = ({ customers, ...rest }) => (
                   <Box>
                     {' '}
                     <IconButton
+                      onClick={handleClick}
                       edge="end"
                       size="small"
                     >
@@ -75,8 +81,8 @@ const CustomerListResults = ({ customers, ...rest }) => (
         </Table>
       </Box>
     </PerfectScrollbar>
-  </Card>
-);
+  </Card>);
+};
 
 CustomerListResults.propTypes = {
   customers: PropTypes.array.isRequired

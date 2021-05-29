@@ -53,18 +53,19 @@ const products = [
   }
 ];
 
+
 const ListItem = withStyles({
   root: {
     "&$selected": {
-      backgroundColor: "#b0b0b0",
+      backgroundColor: "b0b0b0",
       color: "white"
     },
     "&$selected:hover": {
-      backgroundColor: "#d3d3d3",
+      backgroundColor: "black",
       color: "white"
     },
     "&:hover": {
-      backgroundColor: "#d3d3d3",
+      backgroundColor: "black",
       color: "white"
     }
   },
