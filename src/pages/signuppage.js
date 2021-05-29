@@ -83,6 +83,7 @@ export default function SignUp() {
               })
             }
             onSubmit={(values) => {
+
               const request = {
                 method: 'POST',
                 headers: {
@@ -96,13 +97,14 @@ export default function SignUp() {
                 }),
               };
 
+              //TODO: authentication
               fetch('/users', request)
               .then(response => {
                 if(response.ok){
                   navigate('/app/dashboard');
                 }
                 else {
-                  console.log('error with registering')
+                  console.log('error with registration...')
                 }});
             }}
 

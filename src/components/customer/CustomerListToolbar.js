@@ -7,7 +7,10 @@ import {
   InputAdornment,
   SvgIcon
 } from '@material-ui/core';
+import { Create } from '@material-ui/icons';
 import { Search as SearchIcon } from 'react-feather';
+import AddFriend from 'src/helpers/AddFriend.js';
+import CreateGroup from 'src/helpers/CreateGroup.js';
 
 const CustomerListToolbar = (props) => (
   <Box {...props}>
@@ -18,21 +21,8 @@ const CustomerListToolbar = (props) => (
         p: 0.25
       }}
     >
-      <Button
-        sx={{
-          marginRight: 2
-        }}
-        color="primary"
-        variant="contained"
-      >
-        Create Group
-      </Button>
-      <Button
-        color="primary"
-        variant="contained"
-      >
-        Add Friend
-      </Button>
+      <CreateGroup />
+      <AddFriend />
     </Box>
     <Box sx={{ mt: 2 }}>
       <Card>

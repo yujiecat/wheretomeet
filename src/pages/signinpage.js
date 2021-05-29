@@ -13,6 +13,8 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Navigate } from 'react-router';
 
 function Copyright() {
   return (
@@ -49,23 +51,30 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignIn() {
   const classes = useStyles();
-
+  
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  let navigate = useNavigate();
 
+  //TODO: authentication
   const handleSubmit = function(event) {
     event.preventDefault();
     fetch('/user/email/' + email)
-    .then(response => response.json())
-    .then(data => { // TODO: better handling of sign in via JWT and just routing to sign in
-      if(email === data.email && password === data.password) {
-        alert('signed into ' + data.username);
+    .then(response => {
+      if(response.ok) {
+        return response.json();
+      } 
+      else {
+        alert("network error sadge :(");
+      }
+    }).then(data => {
+      if(data.email === email && data.password === password) {
+        navigate('/app/dashboard');
       }
       else {
-        alert('wrong email/password');
+        alert("yikes, wrong email/pass?"); 
       }
     });
-
   }
 
   return (
