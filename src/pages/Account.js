@@ -37,7 +37,7 @@ const Account = () => (
           </Grid>
           <Grid
             item
-            lg={7}
+            lg={8}
             md={6}
             xs={12}
           >
@@ -62,7 +62,7 @@ const Account = () => (
           </Grid>
           <Grid
             item
-            lg={7}
+            lg={8}
             md={6}
             xs={12}
           >

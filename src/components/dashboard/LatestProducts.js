@@ -5,11 +5,13 @@ import {
   Divider,
   IconButton,
   List,
-  ListItem,
   ListItemAvatar,
   ListItemText
 } from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
+import MuiListItem from '@material-ui/core/ListItem';
 import { ChevronRight } from 'react-feather';
+import React from 'react';
 // import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 const products = [
@@ -51,10 +53,48 @@ const products = [
   }
 ];
 
+const ListItem = withStyles({
+  root: {
+    "&$selected": {
+      backgroundColor: "#b0b0b0",
+      color: "white"
+    },
+    "&$selected:hover": {
+      backgroundColor: "#d3d3d3",
+      color: "white"
+    },
+    "&:hover": {
+      backgroundColor: "#d3d3d3",
+      color: "white"
+    }
+  },
+  selected: {}
+})(MuiListItem);
+
 const LatestProducts = (props) => {
-  const handleChange = () => {
+
+  const [selectedIndex, setSelectedIndex] = React.useState(-1);
+
+  const handleChange = (i) => {
     console.log('hey');
+    setSelectedIndex(i);
+
+    // TODO: we'll need to populate actual group cards on the sidebar and store the each group id on the cards somewhere,
+    // then we send the id here to grab the specific group details.
+    const request = fetch('/group/id/' + "123456789")
+    .then(response => {
+        if(response.ok) {
+          alert('retrieved group');
+        }
+        else {
+          alert('error retrieving group... :(');
+        }
+    });
   };
+
+  const hover = () => {
+    console.log('a');
+  }
 
   return (
     <Card {...props}>
@@ -62,7 +102,9 @@ const LatestProducts = (props) => {
       <List>
         {products.map((product, i) => (
           <ListItem
-            onClick={handleChange}
+            selected={selectedIndex === i}
+            onMouseEnter={hover}
+            onClick={() => handleChange(i)}
             divider={i < products.length - 1}
             key={product.id}
           >
