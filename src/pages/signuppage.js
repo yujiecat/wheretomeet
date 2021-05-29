@@ -15,7 +15,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import FormHelperText from '@material-ui/core/FormHelperText';
-import { Redirect } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 
 function Copyright() {
   return (
@@ -52,6 +52,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignUp() {
   const classes = useStyles();
+  let navigate = useNavigate();
 
   return (
     <Container component="main" maxWidth="xs">
@@ -98,10 +99,10 @@ export default function SignUp() {
               fetch('/users', request)
               .then(response => {
                 if(response.ok){
-                  <Link to="/" />
+                  navigate('/app/dashboard');
                 }
                 else {
-                   alert("Oops woopsie we made a fucky wucky");
+                  console.log('error with registering')
                 }});
             }}
 
