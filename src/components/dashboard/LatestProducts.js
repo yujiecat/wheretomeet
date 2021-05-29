@@ -12,7 +12,6 @@ import { withStyles } from '@material-ui/core/styles';
 import MuiListItem from '@material-ui/core/ListItem';
 import { ChevronRight } from 'react-feather';
 import React from 'react';
-// import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 const products = [
   {
