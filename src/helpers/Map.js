@@ -1,5 +1,5 @@
 import React from 'react';
-import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
+import { GoogleMap, useJsApiLoader, Marker, InfoWindow } from '@react-google-maps/api';
 import { v4 as uuid } from 'uuid';
 import DistanceService from './DistanceMatrix.js'
 
@@ -18,14 +18,23 @@ const home = [
   },
 ];
 
+const divStyle = {
+  background: `white`,
+  border: `1px solid #ccc`,
+  padding: 15
+}
+
+
 function Map(props) {
-	const {height, width, zoom} = props;
+	const {height, width, zoom, markers} = props;
 
 	//grab home locations + suggestions here for markers + distance
 		const containerStyle = {
 		width: height,
 		height: width
 	};
+
+	const hasSuggestions = (markers.length > 0)
 
 	const coords = { lat: 49.233741, lng: -123.124675 }
 	const { isLoaded } = useJsApiLoader({
@@ -49,6 +58,10 @@ function Map(props) {
 		console.log('marker: ', marker)
 	}
 
+	const showInfo = () => { 
+		console.log('ayaya');
+	}
+
 	return isLoaded ? (
 		<GoogleMap
 			mapContainerStyle = { containerStyle }
@@ -58,12 +71,30 @@ function Map(props) {
 			onUnmount = { onUnmount }
 		>
 		{home.map((h) => {
-			return (<Marker
+			return(<Marker
+				title = {'duck'}
+				clickable = {true}
 				key = {h.name}
 				onLoad = {markerLoad}
 				position = {h.coords[0]}
-			/>)
-		})}
+				icon = {'https://upload.wikimedia.org/wikipedia/commons/3/34/Home-icon.svg'}
+		/>)})}
+		
+		    <InfoWindow
+				position = {coords}
+    		>
+				<div style={divStyle}>
+					<h1>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</h1>
+				</div>
+			</InfoWindow>
+		{hasSuggestions ? 
+			markers.map((m) => {
+			return (<Marker
+				clickable = {true}
+				key = {m.lat}
+				onLoad = {markerLoad}
+				position = {m}
+			/>)}) : <></>}
 		<DistanceService props={home}/>
 		</GoogleMap>
 	) : <></>
