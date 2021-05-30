@@ -86,10 +86,11 @@ import {
   ComboboxList,
   ComboboxOption,
 } from "@reach/combobox";
+import React, { useCallback } from 'react';
 
 import "@reach/combobox/styles.css";
 
-const PlacesAutocomplete = () => {
+const PlacesAutocomplete = ({ onSelect }) => {
   const {
     ready,
     value,
@@ -101,16 +102,17 @@ const PlacesAutocomplete = () => {
     setValue(e.target.value);
   };
 
-  const handleSelect = (val) => {
+  const handleSelect = useCallback((val) => {
 	getGeocode({ address: val })
 	.then((results) => getLatLng(results[0]))
 	.then(({ lat, lng }) => {
+		onSelect({lat, lng})
 		console.log("coords: ", { lat, lng })
 	}).catch((err) => {
 		console.log("Uh oh: ", err)
 	})
     setValue(val, false);
-  };
+  }, [onSelect, setValue]);
 
   return (
     <Combobox onSelect={handleSelect} aria-labelledby="demo">
