@@ -11,38 +11,64 @@ import {
   TableRow,
   Typography,
   IconButton,
-  makeStyles
+  makeStyles,
 } from '@material-ui/core';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import getInitials from 'src/utils/getInitials';
 import { useEffect, useState } from 'react';
-import { deepOrange, deepPurple } from '@material-ui/core/colors';
+import axios from 'axios';
+
+const useStyles = makeStyles({
+  root: {
+    minWidth: 275
+  },
+  bullet: {
+    display: "inline-block",
+    margin: "0 2px",
+    transform: "scale(0.8)"
+  },
+  title: {
+    fontSize: 14
+  },
+  pos: {
+    marginTop: '0px'
+  }
+});
 
 function CustomerListResults() { 
   const [friends, setFriends] = useState([]);
   const loggedInUser = JSON.parse(localStorage.getItem('user'));
 
+  const classes = useStyles();
+
   useEffect(() => {
-    fetched();
+    retrieveFriendsListData();
   }, []);
 
-  // TODO: Has to be a better way to do this such that its also tied to the add friend helper to refresh the list upon adding a user...
-  // TODO: Store login information -- use axios?
-  const fetched = async() => await fetch('/friends/' + encodeURIComponent(loggedInUser.userId))
-  .then(
-    response => {
-      if(response.ok) {
-        return response.json();
-      }
-      else{
-        console.log('sadge');
-      }
+  // TODO: 
+  // 1. Re-render the list upon adding a friend
+  // 2. cache friends list
+  const retrieveFriendsListData = async() => {
+    if(loggedInUser != null) {
+      await axios.get('/friends/' + encodeURIComponent(loggedInUser.userId))
+      .then(response => {
+          if(response.status == 200) {
+            return response.data;
+          }
+          else{
+            console.log('cannot find friends list');
+          }
+        }
+      )
+      .then(data => {
+        setFriends(data.friends);
+        console.log(friends);
+      });
+    } 
+    else {
+      alert('unable to locate userId');
     }
-  )
-  .then( data => {
-    setFriends(data.friends);
-    console.log(friends);
-  });
+  }
 
   const handleClick = () => {
     this.setState({});
@@ -59,38 +85,37 @@ function CustomerListResults() {
           <TableHead>
             <TableRow>
             <TableCell>
-              Friends of {loggedInUser.userId}
+              Friends
             </TableCell>
             <TableCell align="right">
               Options
             </TableCell>
             </TableRow>
           </TableHead>
-
           
           <TableBody>
             {friends.map((friend) => (
               <TableRow key={friend.username}>
-                  <TableCell>
-                    <Box sx={{
+                  <TableCell >
+                    <Box mt={-3.5} sx={{
                       alignItems: 'center',
-                      display: 'flex'
-                    }}>
+                      display: 'flex',
+                    }}border={1}>
                       <Avatar 
                         sx={{ ml: 2, mr: 2 }}
                       >
                         {getInitials(friend.username)}
                       </Avatar>
-                      <Typography color="textPrimary" variant="body1">
-                        {friend.userId}
+
+                      <Typography variant= "h4" mb = {1} className = 'classes.pos'>
+                        {friend.username}
                       </Typography>
+                      <Typography mt = {3} mx = {-4.3} variant= "subtitle1" color='textSecondary'>{friend.userId}</Typography>
                     </Box>
                   </TableCell>
               </TableRow>
             ))}
           </TableBody>
-         
-              
 
         </Table>
       </Box>
