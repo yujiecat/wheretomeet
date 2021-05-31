@@ -8,6 +8,8 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import ReactDOM from "react-dom";
 import { BrowserRouter as Router, Route } from "react-router-dom";
+import { encodingLength } from 'dns-packet';
+import axios from 'axios';
 
 export default function AddFriend() {
   const [open, setOpen] = React.useState(false);
@@ -24,32 +26,35 @@ export default function AddFriend() {
   };
 
   const handleSubmit = () => {
-
     //TODO: 
     // 1. Actually use the user's data instead
     // 2. Populate FL with 'pending status' until friend responds (accept/decline)
+    if(loggedInUser != null) {
+      const user = encodeURIComponent(loggedInUser.userId);
+      const friend = encodeURIComponent(friendId);
 
-    const request = {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        userId: encodeURIComponent(loggedInUser.userId),
-        friendId: encodeURIComponent(friendId),
-      }),
-    };
+      const friendRequest = {
+        userId: user,
+        friendId: friend,
+      };
 
-    fetch('/friends/' + encodeURIComponent(loggedInUser.userId) +'/add/' + encodeURIComponent(friendId), request)
-    .then(response => {
-        if(response.ok){
+      const friendRequestUri = '/friends/' + user + '/add/' + friend;
+
+      axios.put(friendRequestUri , {friendRequest})
+      .then(response => {
+        if(response.status == 200) {
           alert("Friend request sent!");
-          
-        }
+        } 
         else {
           alert("Cannot find user with id:" + friendId);
         }
-    });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+    } else {
+      alert('cannot locate userId');
+    }
   }
 
   return (

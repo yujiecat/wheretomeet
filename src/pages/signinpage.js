@@ -15,6 +15,7 @@ import Container from '@material-ui/core/Container';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Navigate } from 'react-router';
+import axios from 'axios';
 
 function Copyright() {
   return (
@@ -56,18 +57,20 @@ export default function SignIn() {
   const [password, setPassword] = useState('');
   let navigate = useNavigate();
 
-  //TODO: authentication
+  //TODO: authentication + tokens
   const handleSubmit = function(event) {
     event.preventDefault();
-    fetch('/user/email/' + email)
+
+    axios.get('user/email/' + email)
     .then(response => {
-      if(response.ok) {
-        return response.json();
-      } 
-      else {
-        alert("network error sadge :(");
+      if(response.status == 200) {
+        return response.data;
       }
-    }).then(data => {
+      else {
+        alert('network error sadge :(' + response.status);
+      }
+    })
+    .then(data => {
       if(data.email === email && data.password === password) {
         localStorage.setItem('user', JSON.stringify(data));
         navigate('/app/dashboard');
@@ -75,6 +78,9 @@ export default function SignIn() {
       else {
         alert("yikes, wrong email/pass?"); 
       }
+    })
+    .catch(error => {
+      console.log(error);
     });
   }
 
