@@ -6,12 +6,14 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-
+import ReactDOM from "react-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 
 export default function AddFriend() {
   const [open, setOpen] = React.useState(false);
 
   const [friendId, setFriendId] = React.useState('');
+  const loggedInUser = JSON.parse(localStorage.getItem('user'));
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -33,15 +35,16 @@ export default function AddFriend() {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        userId: encodeURIComponent(friendId),
+        userId: encodeURIComponent(loggedInUser.userId),
         friendId: encodeURIComponent(friendId),
       }),
     };
 
-    fetch('/friends/' + encodeURIComponent(friendId) +'/add/' + encodeURIComponent(friendId), request)
+    fetch('/friends/' + encodeURIComponent(loggedInUser.userId) +'/add/' + encodeURIComponent(friendId), request)
     .then(response => {
         if(response.ok){
           alert("Friend request sent!");
+          
         }
         else {
           alert("Cannot find user with id:" + friendId);

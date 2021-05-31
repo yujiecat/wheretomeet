@@ -69,6 +69,7 @@ export default function SignIn() {
       }
     }).then(data => {
       if(data.email === email && data.password === password) {
+        localStorage.setItem('user', JSON.stringify(data));
         navigate('/app/dashboard');
       }
       else {
