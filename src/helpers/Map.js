@@ -20,8 +20,6 @@ const home = [
 
 const divStyle = {
   background: `white`,
-  border: `1px solid #ccc`,
-  padding: 15
 }
 
 
@@ -77,16 +75,14 @@ function Map(props) {
 				key = {h.name}
 				onLoad = {markerLoad}
 				position = {h.coords[0]}
-				icon = {'https://upload.wikimedia.org/wikipedia/commons/3/34/Home-icon.svg'}
-		/>)})}
-		
-		    <InfoWindow
-				position = {coords}
-    		>
+				icon = {'https://upload.wikimedia.org/wikipedia/commons/3/34/Home-icon.svg'}>
+				<InfoWindow>
 				<div style={divStyle}>
-					<h1>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</h1>
+					<p>{h.name}</p>
 				</div>
-			</InfoWindow>
+			</InfoWindow></Marker>)})}
+		
+
 		{hasSuggestions ? 
 			markers.map((m) => {
 			return (<Marker
