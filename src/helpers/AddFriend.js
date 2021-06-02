@@ -4,11 +4,7 @@ import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import ReactDOM from "react-dom";
-import { BrowserRouter as Router, Route } from "react-router-dom";
-import { encodingLength } from 'dns-packet';
 import axios from 'axios';
 
 export default function AddFriend() {
@@ -29,6 +25,7 @@ export default function AddFriend() {
     //TODO: 
     // 1. Actually use the user's data instead
     // 2. Populate FL with 'pending status' until friend responds (accept/decline)
+    // 3. Refresh the list inside CustomerListResults
     if(loggedInUser != null) {
       const user = encodeURIComponent(loggedInUser.userId);
       const friend = encodeURIComponent(friendId);
@@ -44,6 +41,7 @@ export default function AddFriend() {
       .then(response => {
         if(response.status == 200) {
           alert("Friend request sent!");
+          //insert list reloading here
         } 
         else {
           alert("Cannot find user with id:" + friendId);
