@@ -8,6 +8,23 @@ import {
 import Map from 'src/helpers/Map.js';
 import PlacesAutocomplete from 'src/helpers/AutoComplete.js';
 import MessageList from 'src/helpers/MessageList.js';
+import DistanceService from 'src/helpers/DistanceMatrix.js';
+
+// temporarily here before api hooks
+
+const home = [
+  {
+    id: 1,
+    name: 'Office',
+    coords: [{ lat: 49, lng: -123.124675 }]
+  },
+
+{
+    id: 2,
+    name: 'Home',
+    coords: [{ lat: 49.233700, lng: -123 }]
+  },
+];
 
 // group design
 const GroupDashboard = () => {
@@ -16,6 +33,7 @@ const GroupDashboard = () => {
 	// also grab user's home locations here
 
 	const [markers, setMarkers] = React.useState([{lat: 10, lng: 10}]);
+	// eslint-disable-next-line no-unused-vars
 	const [homeLocations, setHomeLocations] = React.useState([]);
 
 	const handleMarkers = (markers, val) => {
@@ -24,10 +42,15 @@ const GroupDashboard = () => {
 		console.log('markers', markers);
 	}
 
+  const handleDistance = (val) => {
+    // save this information somewhere in db
+    <DistanceService props={home} />
+    console.log('got here')
+  }
 
   return(<>
     <Helmet>
-      <title>GroupName</title>
+      <title>GroupNameHere</title>
     </Helmet>
     <Box
       sx={{
@@ -38,7 +61,7 @@ const GroupDashboard = () => {
     >
       <Container maxheight="lg">
 		<Box display='flex' justifyContent='center' sx={{pt: 3}}>
-			<Map height='60rem' width='25rem' zoom='11' markers={markers}/>
+			<Map height='60rem' width='25rem' zoom='11' markers={markers} />
 		</Box>
         <Box sx={{ pt: 3 }}>
           <Grid
@@ -58,7 +81,7 @@ const GroupDashboard = () => {
             pt: 3
           }}
         >
-			<PlacesAutocomplete onSelect = {(val) => {handleMarkers(markers, val)}} />
+			<PlacesAutocomplete onSelect = {(val) => {handleMarkers(markers, val); handleDistance(val)}} />
         </Box>
 		  <MessageList />
       </Container>

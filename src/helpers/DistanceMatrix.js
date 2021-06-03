@@ -1,10 +1,13 @@
 import React from 'react';
 import { DistanceMatrixService } from '@react-google-maps/api';
 
-function DistanceService(...props) {
+function DistanceService({home, val}) {
 
-	const dest = props[0].props[0].coords;
-	const origins = props[0].props[1].coords;
+	const dest = home[0].coords;
+	const origins = {lat: 10, lng: 10}
+
+	console.log('here', dest);
+	console.log('there', origins);
 
 	return(
 	<DistanceMatrixService

@@ -5,7 +5,7 @@ import {
   CardHeader,
   Divider,
 } from '@material-ui/core';
-import { v4 as uuid } from 'uuid';
+import { TextField } from '@material-ui/core';
 import Map from 'src/helpers/Map.js';
 import PlacesAutocomplete from 'src/helpers/AutoComplete.js';
 
@@ -25,6 +25,11 @@ const data = [
 
 const AccountProfileDetails = (props) => {
   const [markers, setMarkers] = useState(data);
+  const [name, setName] = useState('');
+
+    const handleChange = (event) => {
+    setName(event.value);
+  };
 
  	const handleMarkers = (markers, val) => {
     if(markers.length < 3)
@@ -44,7 +49,15 @@ const AccountProfileDetails = (props) => {
         />
         <Divider />
         <Box display='flex' justifyContent='center' sx={{pt: 1}}>
-			    <PlacesAutocomplete onSelect = {(val) => {handleMarkers(markers, val)}} />
+          <TextField
+                helperText="Home Name"
+                label="Home Name"
+                name="name"
+                onChange={handleChange}
+                required
+                value={name}
+                variant="outlined"
+              />			    <PlacesAutocomplete onSelect = {(val) => {handleMarkers(markers, val)}} />
         </Box>
 		    <Box display='flex' justifyContent='center' sx={{pt: 1, pb: 2}}>
           <Map height='48rem' width='20rem' zoom='11' markers={markers} />

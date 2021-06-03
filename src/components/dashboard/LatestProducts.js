@@ -92,10 +92,6 @@ const LatestProducts = (props) => {
     });
   };
 
-  const hover = () => {
-    console.log('a');
-  }
-
   return (
     <Card {...props}>
       <Divider />
@@ -103,7 +99,6 @@ const LatestProducts = (props) => {
         {products.map((product, i) => (
           <ListItem
             selected={selectedIndex === i}
-            onMouseEnter={hover}
             onClick={() => handleChange(i)}
             divider={i < products.length - 1}
             key={product.id}
