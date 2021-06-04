@@ -1,19 +1,22 @@
 import {
   Box,
-  Button,
   Card,
   CardContent,
   TextField,
   InputAdornment,
   SvgIcon
 } from '@material-ui/core';
-import { Create } from '@material-ui/icons';
 import { Search as SearchIcon } from 'react-feather';
 import AddFriend from 'src/helpers/AddFriend.js';
 import CreateGroup from 'src/helpers/CreateGroup.js';
 
-const CustomerListToolbar = (props) => (
-  <Box {...props}>
+const CustomerListToolbar = ({refreshFriends}) => {
+
+  const refresh = () =>{
+    refreshFriends();
+  }
+
+  return(<Box>
     <Box
       sx={{
         display: 'flex',
@@ -22,7 +25,7 @@ const CustomerListToolbar = (props) => (
       }}
     >
       <CreateGroup />
-      <AddFriend />
+      <AddFriend refreshFriends={refresh}/>
     </Box>
     <Box sx={{ mt: 2 }}>
       <Card>
@@ -49,7 +52,7 @@ const CustomerListToolbar = (props) => (
         </CardContent>
       </Card>
     </Box>
-  </Box>
-);
+  </Box>)
+};
 
 export default CustomerListToolbar;

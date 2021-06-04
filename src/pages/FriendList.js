@@ -2,9 +2,18 @@ import { Helmet } from 'react-helmet';
 import { Box, Container } from '@material-ui/core';
 import FriendsListComponent from 'src/components/customer/FriendsListComponent';
 import FriendsListToolbar from 'src/components/customer/FriendsListToolbar';
+import React from 'react';
 
-const FriendList = () => (
-  <>
+const FriendList = () => {
+
+  const[state, setState] = React.useState(false)
+
+  const refreshPage = () => {
+    setState(!state);
+    console.log('aha')
+  }
+
+  return(<>
     <Helmet>
       <title>Friends</title>
     </Helmet>
@@ -18,13 +27,13 @@ const FriendList = () => (
       <Container
         maxWidth="lg"
       >
-        <FriendsListToolbar/>
+        <FriendsListToolbar refreshFriends={refreshPage}/>
         <Box sx={{ pt: 3 }}>
-          <FriendsListComponent/>
+          <FriendsListComponent props={state}/>
         </Box>
       </Container>
     </Box>
-  </>
-);
+  </>);
+};
 
 export default FriendList;

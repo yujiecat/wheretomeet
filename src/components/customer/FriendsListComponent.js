@@ -19,6 +19,8 @@ function FriendsListComponent() {
   const [friends, setFriends] = useState([]);
   const loggedInUser = JSON.parse(localStorage.getItem('user'));
 
+  console.log('fjodsjd');
+
   useEffect(() => {
     retrieveFriendsListData();
   }, []);
@@ -30,7 +32,7 @@ function FriendsListComponent() {
     if(loggedInUser != null) {
       await axios.get('/friends/' + encodeURIComponent(loggedInUser.userId))
       .then(response => {
-          if(response.status == 200) {
+          if(response.status === 200) {
             return response.data;
           }
           else{

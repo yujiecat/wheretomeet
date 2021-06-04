@@ -7,9 +7,8 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import axios from 'axios';
 
-export default function AddFriend() {
+export default function AddFriend({refreshFriends}) {
   const [open, setOpen] = React.useState(false);
-
   const [friendId, setFriendId] = React.useState('');
   const loggedInUser = JSON.parse(localStorage.getItem('user'));
 
@@ -39,8 +38,9 @@ export default function AddFriend() {
 
       axios.put(friendRequestUri , {friendRequest})
       .then(response => {
-        if(response.status == 200) {
+        if(response.status === 200) {
           alert("Friend request sent!");
+          refreshFriends();
           //insert list reloading here
         } 
         else {
