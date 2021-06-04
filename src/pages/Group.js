@@ -10,6 +10,7 @@ import PlacesAutocomplete from 'src/helpers/AutoComplete.js';
 import MessageList from 'src/helpers/MessageList.js';
 import { getDetails } from 'use-places-autocomplete';
 import { GoogleMap } from '@react-google-maps/api';
+import axios from 'axios';
 
 // temporarily here before api hooks
 
@@ -56,6 +57,29 @@ const GroupDashboard = () => {
 
     function callback(response, status){
       console.log('what the fuck', response);
+
+      const venue = {
+        venueCoordinates: [val.lat, val.lng],
+        venueName: "place_name",
+        venueAddress: response.destinationAddresses[0],
+        venuePhoneNumner: "911",
+        venueId: "123456789",
+      }
+  
+      const gid = '557087790'
+
+      axios.put('/group/' + gid + '/add/location', venue)
+          .then(response => {
+            if(response.status === 200) {
+              console.log('venue pushed to group successfully');
+            }
+            else {
+              alert("network error");
+            }
+          })
+          .catch(error => {
+            console.log(error);
+          });
     }
   }
 
