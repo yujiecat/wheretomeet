@@ -55,7 +55,7 @@ export default function Homepage() {
               A simple way to organize meetups with friends and colleagues.
             </Typography>
             <div className={classes.heroButtons}>
-              <Grid container spacing={2} justify="center">
+              <Grid container spacing={2} display='flex' justifyContent='center'>
                 <Grid item>
                   <Button component={Link} to="/login" variant="contained" color="primary">
                     Sign In
@@ -68,6 +68,11 @@ export default function Homepage() {
                 </Grid>
 				        <Grid item>
                   <CreateGroup />
+                </Grid>
+                <Grid item>
+                  <Button component={Link} to="/app/dashboard" variant="outlined" color="primary">
+                    Dashboard
+                  </Button>
                 </Grid>
               </Grid>
             </div>

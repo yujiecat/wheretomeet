@@ -13,7 +13,7 @@ function DistanceService(...props) {
            origins: origins,
            travelMode: "DRIVING",
          }}
- 	callback = {(response) => {console.log(response)}}
+ 	callback = {(response) => {console.log('distance: ' , response)}}
 	/>)
 
 }
