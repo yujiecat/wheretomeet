@@ -2,6 +2,8 @@ import React from 'react';
 import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
 import { v4 as uuid } from 'uuid';
 import MarkerEmbed from './MarkerEmbed.js';
+import DistanceService from 'src/helpers/DistanceMatrix.js';
+
 
 // test locations
 const home = [
@@ -61,6 +63,7 @@ function Map(props) {
 
 	return isLoaded ? (
 		<GoogleMap
+			id='map'
 			mapContainerStyle = { containerStyle }
 			center = { coords }
 			setZoom = { zoom }
