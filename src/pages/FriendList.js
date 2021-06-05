@@ -1,11 +1,47 @@
 import { Helmet } from 'react-helmet';
 import { Box, Container } from '@material-ui/core';
-import CustomerListResults from 'src/components/customer/CustomerListResults';
-import CustomerListToolbar from 'src/components/customer/CustomerListToolbar';
-import customers from 'src/__mocks__/customers';
+import FriendsListComponent from 'src/components/friendslist/FriendsListComponent';
+import FriendsListToolbar from 'src/components/friendslist/FriendsListToolbar';
+import React from 'react';
+import axios from 'axios';
 
-const FriendList = () => (
-  <>
+const FriendList = () => {
+
+  const[state, setState] = React.useState(false);
+  const [friends, setFriends] = React.useState([]);
+  const loggedInUser = JSON.parse(localStorage.getItem('user'));
+
+  const retrieveFriendsListData = async() => {
+    if(loggedInUser != null) {
+      await axios.get('/friends/' + encodeURIComponent(loggedInUser.userId))
+      .then(response => {
+          if(response.status === 200) {
+            return response.data;
+          }
+          else{
+            alert('unable to retrieve friends data');
+          }
+        }
+      )
+      .then(data => {
+        setFriends(data.friends);
+      });
+    } 
+    else {
+      alert('unable to locate userId');
+    }
+  }
+
+  React.useEffect(() => {
+    retrieveFriendsListData();
+  }, []);
+
+  const refreshPage = () => {
+    setState(!state);
+    retrieveFriendsListData();
+  }
+
+  return(<>
     <Helmet>
       <title>Friends</title>
     </Helmet>
@@ -19,13 +55,13 @@ const FriendList = () => (
       <Container
         maxWidth="lg"
       >
-        <CustomerListToolbar />
+        <FriendsListToolbar refreshFriends={refreshPage}/>
         <Box sx={{ pt: 3 }}>
-          <CustomerListResults customers={customers} />
+          <FriendsListComponent friends = {friends} refreshFriends={refreshPage}/>
         </Box>
       </Container>
     </Box>
-  </>
-);
+  </>);
+};
 
 export default FriendList;
