@@ -11,7 +11,7 @@ import {
 import { withStyles } from '@material-ui/core/styles';
 import MuiListItem from '@material-ui/core/ListItem';
 import { ChevronRight } from 'react-feather';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 const products = [
   {
@@ -44,12 +44,42 @@ const products = [
     imageUrl: '/static/images/products/product_5.png',
     updatedAt: moment().subtract(9, 'hours')
   },
-  {
+    {
     id: uuid(),
     name: 'GitHub',
     imageUrl: '/static/images/products/product_5.png',
     updatedAt: moment().subtract(9, 'hours')
-  }
+  },
+    {
+    id: uuid(),
+    name: 'GitHub',
+    imageUrl: '/static/images/products/product_5.png',
+    updatedAt: moment().subtract(9, 'hours')
+  },
+    {
+    id: uuid(),
+    name: 'GitHub',
+    imageUrl: '/static/images/products/product_5.png',
+    updatedAt: moment().subtract(9, 'hours')
+  },
+      {
+    id: uuid(),
+    name: 'GitHub',
+    imageUrl: '/static/images/products/product_5.png',
+    updatedAt: moment().subtract(9, 'hours')
+  },    {
+    id: uuid(),
+    name: 'GitHub',
+    imageUrl: '/static/images/products/product_5.png',
+    updatedAt: moment().subtract(9, 'hours')
+  },
+      {
+    id: uuid(),
+    name: 'GitHub',
+    imageUrl: '/static/images/products/product_5.png',
+    updatedAt: moment().subtract(9, 'hours')
+  },
+  
 ];
 
 
@@ -76,7 +106,6 @@ const LatestProducts = (props) => {
   const [selectedIndex, setSelectedIndex] = React.useState(-1);
 
   const handleChange = (i) => {
-    console.log('hey');
     setSelectedIndex(i);
 
     // TODO: we'll need to populate actual group cards on the sidebar and store the each group id on the cards somewhere,
