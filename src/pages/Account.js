@@ -7,6 +7,7 @@ import {
 import AccountProfile from 'src/components/account/AccountProfile';
 import SettingsPassword from 'src/components/settings/SettingsPassword';
 import AccountProfileDetails from 'src/components/account/AccountProfileDetails';
+import SetHome from 'src/components/account/SetHome';
 
 const Account = () => (
   <>
@@ -66,7 +67,7 @@ const Account = () => (
             md={6}
             xs={12}
           >
-            <AccountProfileDetails />
+            <SetHome />
           </Grid>
         </Grid>
       </Container>

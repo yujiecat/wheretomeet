@@ -1,7 +1,9 @@
 import React from 'react';
-import { GoogleMap, useJsApiLoader, Marker, InfoWindow } from '@react-google-maps/api';
+import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
 import { v4 as uuid } from 'uuid';
-import DistanceService from './DistanceMatrix.js'
+import MarkerEmbed from './MarkerEmbed.js';
+import DistanceService from 'src/helpers/DistanceMatrix.js';
+
 
 // test locations
 const home = [
@@ -18,11 +20,12 @@ const home = [
   },
 ];
 
-const divStyle = {
-  background: `white`,
-  border: `1px solid #ccc`,
-  padding: 15
-}
+
+// use divStyle to adjust embed appearance
+
+// const divStyle = {
+//   background: `white`,
+// }
 
 
 function Map(props) {
@@ -55,15 +58,12 @@ function Map(props) {
 	}, [])
 
 	const markerLoad = marker => {
-		console.log('marker: ', marker)
 	}
 
-	const showInfo = () => { 
-		console.log('ayaya');
-	}
 
 	return isLoaded ? (
 		<GoogleMap
+			id='map'
 			mapContainerStyle = { containerStyle }
 			center = { coords }
 			setZoom = { zoom }
@@ -77,25 +77,12 @@ function Map(props) {
 				key = {h.name}
 				onLoad = {markerLoad}
 				position = {h.coords[0]}
-				icon = {'https://upload.wikimedia.org/wikipedia/commons/3/34/Home-icon.svg'}
-		/>)})}
+				icon = {'https://upload.wikimedia.org/wikipedia/commons/3/34/Home-icon.svg'}></Marker>)})}
 		
-		    <InfoWindow
-				position = {coords}
-    		>
-				<div style={divStyle}>
-					<h1>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</h1>
-				</div>
-			</InfoWindow>
+
 		{hasSuggestions ? 
 			markers.map((m) => {
-			return (<Marker
-				clickable = {true}
-				key = {m.lat}
-				onLoad = {markerLoad}
-				position = {m}
-			/>)}) : <></>}
-		<DistanceService props={home}/>
+				return(<MarkerEmbed key={m.lat} m={m}/>)}) : <></>}
 		</GoogleMap>
 	) : <></>
 }

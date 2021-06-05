@@ -16,8 +16,8 @@ const SettingsNotifications = (props) => (
   <form {...props}>
     <Card>
       <CardHeader
-        subheader="Manage the notifications"
-        title="Notifications"
+        subheader="Manage your settings"
+        title="Settings"
       />
       <Divider />
       <CardContent>
@@ -53,26 +53,8 @@ const SettingsNotifications = (props) => (
               label="Email"
             />
             <FormControlLabel
-              control={(
-                <Checkbox
-                  color="primary"
-                  defaultChecked
-                />
-              )}
-              label="Push Notifications"
-            />
-            <FormControlLabel
-              control={<Checkbox />}
+              control={<Checkbox color="primary"/>}
               label="Text Messages"
-            />
-            <FormControlLabel
-              control={(
-                <Checkbox
-                  color="primary"
-                  defaultChecked
-                />
-              )}
-              label="Phone calls"
             />
           </Grid>
           <Grid
@@ -90,7 +72,7 @@ const SettingsNotifications = (props) => (
               gutterBottom
               variant="h6"
             >
-              Messages
+              Appearance
             </Typography>
             <FormControlLabel
               control={(
@@ -99,12 +81,30 @@ const SettingsNotifications = (props) => (
                   defaultChecked
                 />
               )}
-              label="Email"
+              label="Dark Mode"
             />
             <FormControlLabel
               control={<Checkbox />}
-              label="Push Notifications"
+              label="Other setting"
             />
+          </Grid>
+          <Grid
+            item
+            md={4}
+            sm={6}
+            sx={{
+              display: 'flex',
+              flexDirection: 'column'
+            }}
+            xs={12}
+          >
+            <Typography
+              color="textPrimary"
+              gutterBottom
+              variant="h6"
+            >
+              Location
+            </Typography>
             <FormControlLabel
               control={(
                 <Checkbox
@@ -112,7 +112,11 @@ const SettingsNotifications = (props) => (
                   defaultChecked
                 />
               )}
-              label="Phone calls"
+              label="Share Home Location(s) with Group"
+            />
+            <FormControlLabel
+              control={<Checkbox />}
+              label="Other Location setting"
             />
           </Grid>
         </Grid>
