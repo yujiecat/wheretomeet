@@ -1,14 +1,14 @@
 import { Helmet } from 'react-helmet';
 import { Box, Container } from '@material-ui/core';
-import FriendsListComponent from 'src/components/customer/FriendsListComponent';
-import FriendsListToolbar from 'src/components/customer/FriendsListToolbar';
+import FriendsListComponent from 'src/components/friendslist/FriendsListComponent';
+import FriendsListToolbar from 'src/components/friendslist/FriendsListToolbar';
 import React from 'react';
 import axios from 'axios';
 
 const FriendList = () => {
 
-  const[state, setState] = React.useState(false)
-  const [friends, setFriends] = React.useState([{username: 'afdsf', userId: 346439}]);
+  const[state, setState] = React.useState(false);
+  const [friends, setFriends] = React.useState([]);
   const loggedInUser = JSON.parse(localStorage.getItem('user'));
 
   const retrieveFriendsListData = async() => {
@@ -19,13 +19,12 @@ const FriendList = () => {
             return response.data;
           }
           else{
-            console.log('cannot find friends list');
+            alert('unable to retrieve friends data');
           }
         }
       )
       .then(data => {
         setFriends(data.friends);
-        console.log(friends);
       });
     } 
     else {
@@ -40,7 +39,6 @@ const FriendList = () => {
   const refreshPage = () => {
     setState(!state);
     retrieveFriendsListData();
-    console.log('aha')
   }
 
   return(<>

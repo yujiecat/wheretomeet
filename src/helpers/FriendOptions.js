@@ -9,15 +9,17 @@ import {
     ListItem,
 } from '@material-ui/core';
 
-export default function RemoveFriend({userId, refreshFriends}) {
+export default function FriendOptions({userId, refreshFriends}) {
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const loggedInUser = JSON.parse(localStorage.getItem('user'));
 
+  // Clicking on the 3 dots
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
+  // Closing the popover menu
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -27,8 +29,7 @@ export default function RemoveFriend({userId, refreshFriends}) {
 
   const handleRemove = () => {
     //TODO: 
-    // 1. Actually use the user's data instead
-    // 2. Populate FL with 'pending status' until friend responds (accept/decline)
+    // 1. Populate FL with 'pending status' until friend responds (accept/decline)
     if(loggedInUser != null) {
       const user = encodeURIComponent(loggedInUser.userId);
       const friend = encodeURIComponent(userId);
@@ -43,9 +44,8 @@ export default function RemoveFriend({userId, refreshFriends}) {
       axios.put(friendRequestUri , {friendRequest})
       .then(response => {
         if(response.status === 200) {
-          alert("friend removed!");
+          alert("Friend removed");
           refreshFriends();
-          //insert list reloading here
         } 
         else {
           alert("Cannot find user with id:" + userId);
@@ -70,16 +70,17 @@ export default function RemoveFriend({userId, refreshFriends}) {
         anchorEl={anchorEl}
         onClose={handleClose}
         anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'center',
+          vertical: 'top',
+          horizontal: 'right',
         }}
         transformOrigin={{
           vertical: 'top',
-          horizontal: 'center',
+          horizontal: 'right',
         }}
-      >
-
+      > 
+        {/* List of more options for specific friend */}
         <List>
+            {/* Add more list items for more friend options */}
             <ListItem button onClick={handleRemove}>
                 <Typography>Remove Friend</Typography>
             </ListItem>

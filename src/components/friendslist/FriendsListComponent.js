@@ -9,7 +9,7 @@ import {
   TableRow,
   Typography,
 } from '@material-ui/core';
-import RemoveFriend from 'src/helpers/RemoveFriend.js';
+import FriendOptions from 'src/helpers/FriendOptions.js';
 
 function FriendsListComponent({friends, refreshFriends}) { 
 
@@ -27,7 +27,7 @@ function FriendsListComponent({friends, refreshFriends}) {
 
       <TableBody>
         {friends.map((friend) => 
-          <TableRow>
+          <TableRow key={friend.userId}>
             
               {/* User Avatar, userid and username */}
               <TableCell>
@@ -41,7 +41,7 @@ function FriendsListComponent({friends, refreshFriends}) {
               {/* Options Button*/}
               <TableCell align='right'>
                 <Box>
-                  <RemoveFriend userId = {friend.userId} refreshFriends = {refreshFriends} />
+                  <FriendOptions userId = {friend.userId} refreshFriends = {refreshFriends} />
                 </Box>
               </TableCell>
 
