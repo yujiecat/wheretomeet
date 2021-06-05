@@ -33,7 +33,7 @@ export default function CreateGroup() {
 
     axios.post('/groups', {group})
       .then(response => {
-        if(response.status == 200) {
+        if(response.status === 200) {
           alert('Group created!');
         }
         else {

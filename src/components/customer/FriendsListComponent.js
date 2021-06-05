@@ -11,7 +11,8 @@ import {
 } from '@material-ui/core';
 import RemoveFriend from 'src/helpers/RemoveFriend.js';
 
-function FriendsListComponent(props, {refreshFriends}) { 
+function FriendsListComponent({friends, refreshFriends}) { 
+
   return (
     <Card>
       <div className='FriendsListComponent'>
@@ -25,7 +26,7 @@ function FriendsListComponent(props, {refreshFriends}) {
       </TableHead>
 
       <TableBody>
-        {props.friends.map((friend) => 
+        {friends.map((friend) => 
           <TableRow>
             
               {/* User Avatar, userid and username */}

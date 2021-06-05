@@ -8,7 +8,7 @@ import axios from 'axios';
 const FriendList = () => {
 
   const[state, setState] = React.useState(false)
-  const [friends, setFriends] = React.useState([]);
+  const [friends, setFriends] = React.useState([{username: 'afdsf', userId: 346439}]);
   const loggedInUser = JSON.parse(localStorage.getItem('user'));
 
   const retrieveFriendsListData = async() => {

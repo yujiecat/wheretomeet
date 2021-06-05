@@ -9,10 +9,7 @@ import {
     ListItem,
 } from '@material-ui/core';
 
-export default function RemoveFriend(props, refreshFriends) {
-
-  console.log(props)
-  console.log(props.userId)
+export default function RemoveFriend({userId, refreshFriends}) {
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const loggedInUser = JSON.parse(localStorage.getItem('user'));
@@ -34,7 +31,7 @@ export default function RemoveFriend(props, refreshFriends) {
     // 2. Populate FL with 'pending status' until friend responds (accept/decline)
     if(loggedInUser != null) {
       const user = encodeURIComponent(loggedInUser.userId);
-      const friend = encodeURIComponent(props.userId);
+      const friend = encodeURIComponent(userId);
 
       const friendRequest = {
         userId: user,
@@ -51,7 +48,7 @@ export default function RemoveFriend(props, refreshFriends) {
           //insert list reloading here
         } 
         else {
-          alert("Cannot find user with id:" + props.userId);
+          alert("Cannot find user with id:" + userId);
         }
       })
       .catch(error => {
@@ -73,8 +70,8 @@ export default function RemoveFriend(props, refreshFriends) {
         anchorEl={anchorEl}
         onClose={handleClose}
         anchorOrigin={{
-          vertical: 'right',
-          horizontal: 'right',
+          vertical: 'bottom',
+          horizontal: 'center',
         }}
         transformOrigin={{
           vertical: 'top',
