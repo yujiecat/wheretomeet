@@ -24,7 +24,6 @@ export default function AddFriend({refreshFriends}) {
     //TODO: 
     // 1. Actually use the user's data instead
     // 2. Populate FL with 'pending status' until friend responds (accept/decline)
-    // 3. Refresh the list inside CustomerListResults
     if(loggedInUser != null) {
       const user = encodeURIComponent(loggedInUser.userId);
       const friend = encodeURIComponent(friendId);

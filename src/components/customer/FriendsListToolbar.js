@@ -10,7 +10,7 @@ import { Search as SearchIcon } from 'react-feather';
 import AddFriend from 'src/helpers/AddFriend.js';
 import CreateGroup from 'src/helpers/CreateGroup.js';
 
-const CustomerListToolbar = ({refreshFriends}) => {
+const FriendsListToolbar = ({refreshFriends}) => {
 
   const refresh = () =>{
     refreshFriends();
@@ -55,4 +55,4 @@ const CustomerListToolbar = ({refreshFriends}) => {
   </Box>)
 };
 
-export default CustomerListToolbar;
+export default FriendsListToolbar;

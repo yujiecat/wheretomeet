@@ -8,52 +8,10 @@ import {
   TableHead,
   TableRow,
   Typography,
-  IconButton,
 } from '@material-ui/core';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
+import RemoveFriend from 'src/helpers/RemoveFriend.js';
 
-
-function FriendsListComponent() { 
-  const [friends, setFriends] = useState([]);
-  const loggedInUser = JSON.parse(localStorage.getItem('user'));
-
-  console.log('fjodsjd');
-
-  useEffect(() => {
-    retrieveFriendsListData();
-  }, []);
-
-  // TODO: 
-  // 1. Re-render the list upon adding a friend (should be done in AddFriend.js)
-  // 2. cache friends list
-  const retrieveFriendsListData = async() => {
-    if(loggedInUser != null) {
-      await axios.get('/friends/' + encodeURIComponent(loggedInUser.userId))
-      .then(response => {
-          if(response.status === 200) {
-            return response.data;
-          }
-          else{
-            console.log('cannot find friends list');
-          }
-        }
-      )
-      .then(data => {
-        setFriends(data.friends);
-        console.log(friends);
-      });
-    } 
-    else {
-      alert('unable to locate userId');
-    }
-  }
-
-  const handleClick = (userId) => {
-    console.log(userId);
-  };
-
+function FriendsListComponent(props, {refreshFriends}) { 
   return (
     <Card>
       <div className='FriendsListComponent'>
@@ -67,7 +25,7 @@ function FriendsListComponent() {
       </TableHead>
 
       <TableBody>
-        {friends.map((friend) => 
+        {props.friends.map((friend) => 
           <TableRow>
             
               {/* User Avatar, userid and username */}
@@ -82,9 +40,7 @@ function FriendsListComponent() {
               {/* Options Button*/}
               <TableCell align='right'>
                 <Box>
-                  <IconButton onClick={() => handleClick(friend.userId)}>
-                    <MoreVertIcon />
-                  </IconButton>
+                  <RemoveFriend userId = {friend.userId} refreshFriends = {refreshFriends} />
                 </Box>
               </TableCell>
 
