@@ -2,11 +2,10 @@ import { Helmet } from 'react-helmet';
 import {
   Box,
   Container,
-  Grid
+  Grid,
+  Typography
 } from '@material-ui/core';
 import Meetups from 'src/components/dashboard/Meetups';
-// import Map from 'src/helpers/Map';
-// import AutoComplete from 'src/helpers/AutoComplete';
 
 const Dashboard = () => (
   <>
@@ -21,6 +20,9 @@ const Dashboard = () => (
       }}
     >
       <Container maxWidth="lg">
+      <Typography>
+        <h2>Future Events</h2>
+      </Typography>
         <Grid maxWidth="lg"
           container
           spacing={3}

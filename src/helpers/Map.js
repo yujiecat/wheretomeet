@@ -2,8 +2,6 @@ import React from 'react';
 import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
 import { v4 as uuid } from 'uuid';
 import MarkerEmbed from './MarkerEmbed.js';
-import DistanceService from 'src/helpers/DistanceMatrix.js';
-
 
 // test locations
 const home = [
@@ -29,7 +27,7 @@ const home = [
 
 
 function Map(props) {
-	const {height, width, zoom, markers} = props;
+	const {height, width, zoom, markers, info} = props;
 
 	//grab home locations + suggestions here for markers + distance
 		const containerStyle = {
@@ -39,6 +37,8 @@ function Map(props) {
 
 	const hasSuggestions = (markers.length > 0)
 
+
+	// loads map
 	const coords = { lat: 49.233741, lng: -123.124675 }
 	const { isLoaded } = useJsApiLoader({
 		id: 'google-map-script',
@@ -47,6 +47,7 @@ function Map(props) {
 	// eslint-disable-next-line
 	const [map, setMap] = React.useState(null);
 
+	// places map
 	const onLoad = React.useCallback(function callback(map) {
 		const bounds = new window.google.maps.LatLngBounds();
 		map.fitBounds(bounds);
@@ -56,9 +57,6 @@ function Map(props) {
 	const onUnmount = React.useCallback(function callback(map){
 		setMap(null)
 	}, [])
-
-	const markerLoad = marker => {
-	}
 
 
 	return isLoaded ? (
@@ -75,14 +73,13 @@ function Map(props) {
 				title = {'duck'}
 				clickable = {true}
 				key = {h.name}
-				onLoad = {markerLoad}
 				position = {h.coords[0]}
 				icon = {'https://upload.wikimedia.org/wikipedia/commons/3/34/Home-icon.svg'}></Marker>)})}
 		
 
 		{hasSuggestions ? 
 			markers.map((m) => {
-				return(<MarkerEmbed key={m.lat} m={m}/>)}) : <></>}
+				return(<MarkerEmbed key={m.lat} m={m} info={info}/>)}) : <></>}
 		</GoogleMap>
 	) : <></>
 }
