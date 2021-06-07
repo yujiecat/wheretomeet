@@ -6,6 +6,8 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import axios from 'axios'
+
 
 export default function CreateGroup() {
   const [open, setOpen] = React.useState(false);
@@ -20,32 +22,28 @@ export default function CreateGroup() {
     setOpen(false);
   };
 
+  //TODO: 
+  // 1. populate group's list
+  // 2. redirect to group page..?
   const handleSubmit = () => {
-
-    const request = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        groupName: groupName,
-        groupPassword: groupPassword,
-      }),
+    const group = {
+      groupName: groupName,
+      groupPassword: groupPassword,
     };
 
-    //TODO: redirect straight to group page or smth
-    fetch('/groups', request)
-    .then(response => {
-        if(response.ok){
-          alert("Group created!");
+    axios.post('/groups', {group})
+      .then(response => {
+        if(response.status === 200) {
+          alert('Group created!');
         }
         else {
-          alert("Error in creating group :(");
+          alert('Error creating group :(');
         }
-      console.log('owo');
+    }).catch(error => {
+      console.log(error);
     });
-
   }
+
   return (
     <div>
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>

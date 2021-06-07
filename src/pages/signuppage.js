@@ -16,6 +16,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 function Copyright() {
   return (
@@ -82,30 +83,27 @@ export default function SignUp() {
                 policy: Yup.boolean().oneOf([true], 'This field must be checked.')
               })
             }
+            //TODO: authentication + session token
             onSubmit={(values) => {
+              const user = {
+                displayName: values.displayName,
+                username: values.userName,
+                email: values.email,
+                password: values.password,
+              }
 
-              const request = {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                  displayName: values.displayName,
-                  username: values.userName,
-                  email: values.email,
-                  password: values.password,
-                }),
-              };
-
-              //TODO: authentication
-              fetch('/users', request)
-              .then(response => {
-                if(response.ok){
+              axios.post('/users', {user}).then(response => {
+                if(response.status == 200) {
+                  console.log("sign up successful");
+                  localStorage.setItem('user', response.data)
                   navigate('/app/dashboard');
                 }
                 else {
-                  console.log('error with registration...')
-                }});
+                  alert('error in creating user');
+                }
+              }).catch(error => {
+                console.log(error);
+              });
             }}
 
           >
