@@ -20,9 +20,7 @@ const Dashboard = () => (
       }}
     >
       <Container maxWidth="lg">
-      <Typography>
         <h2>Future Events</h2>
-      </Typography>
         <Grid maxWidth="lg"
           container
           spacing={3}

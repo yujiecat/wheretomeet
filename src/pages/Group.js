@@ -9,6 +9,7 @@ import Map from 'src/helpers/Map.js';
 import PlacesAutocomplete from 'src/helpers/AutoComplete.js';
 import MessageList from 'src/helpers/MessageList.js';
 import { getDetails } from 'use-places-autocomplete';
+import Voting from 'src/helpers/Voting.js';
 
 // temporarily here before api hooks
 
@@ -124,7 +125,10 @@ const GroupDashboard = () => {
         >
 			<PlacesAutocomplete onSelect = {(val, place) => {handleMarkers(markers, val, place); handleDistance(val); console.log("??", place)}} />
         </Box>
+        <Box>
 		  <MessageList />
+      <Voting />
+        </Box>
       </Container>
     </Box>
   </>);
