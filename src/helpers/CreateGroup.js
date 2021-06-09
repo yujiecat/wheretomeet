@@ -13,6 +13,7 @@ export default function CreateGroup() {
   const [open, setOpen] = React.useState(false);
   const [groupName, setGroupName] = React.useState('');
   const [groupPassword, setGroupPassword] = React.useState('');
+  const loggedInUser = JSON.parse(localStorage.getItem('user'));
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -26,20 +27,39 @@ export default function CreateGroup() {
   // 1. populate group's list
   // 2. redirect to group page..?
   const handleSubmit = () => {
+
     const group = {
       groupName: groupName,
       groupPassword: groupPassword,
+      groupOwner: loggedInUser,
+      groupMembers: [loggedInUser]
     };
 
-    axios.post('/groups', {group})
+    axios.post('/groups/', group)
       .then(response => {
         if(response.status === 200) {
           alert('Group created!');
+          return response.data;
         }
         else {
           alert('Error creating group :(');
         }
-    }).catch(error => {
+    })
+    .then(data => { 
+      axios.put('/groupsList/' + encodeURIComponent(loggedInUser.userId) + '/add/' + data.groupId)
+      .then(response => {
+        if(response.status === 200) {
+          console.log('group added to user\'s group list');
+        }
+        else {
+          alert('error saving group details');
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+    })
+    .catch(error => {
       console.log(error);
     });
   }

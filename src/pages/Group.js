@@ -34,6 +34,32 @@ const GroupDashboard = () => {
 	// grab suggested locations of a group here
 	// also grab user's home locations here
 
+  const selectedGroupId = localStorage.getItem("recentlySelectedGroup");
+
+  const retrieveGroupData = async() => {
+    if(selectedGroupId != null) {
+      await axios.get('/group/id/' + selectedGroupId)
+      .then(response => {
+        if(response.status === 200) {
+          return response.data;
+        }
+        else {
+          alert('error retrieving group data');
+        }
+      })
+      .then(data => {
+        console.log(data);
+      })
+      .catch(error => {
+        console.log('error retrieving group data: ' + error);
+      })
+    }
+  }
+
+  React.useEffect(() => {
+    retrieveGroupData();
+  }, []);
+
 	const [markers, setMarkers] = React.useState([{lat: 10, lng: 10}]);
   const [info, setInfo] = React.useState([{}]);
 	// eslint-disable-next-line no-unused-vars
@@ -66,20 +92,20 @@ const GroupDashboard = () => {
         venueId: "123456789",
       }
   
-      const gid = '557087790'
-
-      axios.put('/group/' + gid + '/add/location', venue)
-          .then(response => {
-            if(response.status === 200) {
-              console.log('venue pushed to group successfully');
-            }
-            else {
-              alert("network error");
-            }
-          })
-          .catch(error => {
-            console.log(error);
-          });
+      if(selectedGroupId != null) {
+        axios.put('/group/' + selectedGroupId + '/add/location', venue)
+        .then(response => {
+          if(response.status === 200) {
+            console.log('venue pushed to group successfully');
+          }
+          else {
+            alert("network error");
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
+      }
     }
   }
 

@@ -14,7 +14,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Navigate } from 'react-router';
 import axios from 'axios';
 
 function Copyright() {

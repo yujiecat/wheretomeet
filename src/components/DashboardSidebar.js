@@ -15,7 +15,7 @@ import {
   MessageSquare as GroupsIcon
 } from 'react-feather';
 import NavItem from './NavItem';
-import LatestProducts from './dashboard/LatestProducts';
+import GroupsList from './dashboard/GroupsList';
 
 const user = {
   avatar: '/static/images/avatars/avatar_6.png',
@@ -55,6 +55,13 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname]);
+
+  // const[state, setState] = React.useState(false);
+
+  // const refreshPage = () => {
+  //   setState(!state);
+  //   retrieveFriendsListData();
+  // }
 
   const content = (
     <Box
@@ -110,7 +117,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
         ))}
       </Box>
       <Box sx={{}}>
-        <LatestProducts />
+        <GroupsList />
       </Box>
     </Box>
   );
