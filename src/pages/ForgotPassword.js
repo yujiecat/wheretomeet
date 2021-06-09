@@ -3,10 +3,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import { Link } from 'react-router-dom';
-import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
@@ -55,22 +52,26 @@ export default function SignIn() {
   const classes = useStyles();
   const [loading, setLoading] =useState(false);
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const { signin } = useAuth();
-  let navigate = useNavigate();
+  const { resetPassword } = useAuth();
+  const [message, setMessage] = useState('');
 
-  //TODO: authentication + tokens
+  // There's an issue when the email is valid but does not exist in firebase
+  // It throws a 400 error in the console - might need to adjust some stuff to fix this.
   const handleSubmit = async function(event) {
-    event.preventDefault();
+		event.preventDefault();
 
-    try {
-        setLoading(true);
-        await signin(email, password);
-        navigate('/app/dashboard');
-        console.log('ok!');
-    } catch {
-          console.log('error with signing in');
-    }
+		setMessage('');
+		setLoading(true);
+		resetPassword(email)
+		.then((data) => {
+			setMessage('Password reset request sent. Check your email inbox for further instructions.')
+			setLoading(false);
+		})
+		.catch((error) => {
+			setMessage('There was an error resetting your password. Please check to see if you\'ve entered your email properly.');
+			setLoading(false);
+		})
+
 
     // axios.get('user/email/' + email)
     // .then(response => {
@@ -95,6 +96,7 @@ export default function SignIn() {
     // });
   }
 
+	
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -103,8 +105,11 @@ export default function SignIn() {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign In
+          Reset Password
         </Typography>
+		<Typography align={'center'} mt={2} component="p" variant="h6">
+			{message}
+		</Typography>
         <form onSubmit={handleSubmit} className={classes.form} noValidate>
           <TextField
             variant="outlined"
@@ -121,50 +126,21 @@ export default function SignIn() {
             value = {email}
             autoFocus
           />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-            onInput = {e => setPassword(
-              e.target.value
-            )}
-            value = {password}
-          />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          />
+          
           <Button
             type="submit"
             fullWidth
             variant="contained"
             color="primary"
+			disabled={loading}
             className={classes.submit}
           >
-            Sign In
+            Send password reset request
           </Button>
-          <Grid container>
-            <Grid item xs>
-              <Link href="#" variant="body2" to="/forgotpassword">
-                Forgot password?
-              </Link>
-            </Grid>
-            <Grid item>
-              <Link to="/register" variant="body2">
-                {"Don't have an account? Sign Up"}
-              </Link>
-            </Grid>
-          </Grid>
         </form>
       </div>
-      <Box mt={8}>
-        <Copyright />
+      <Box mt={3}>
+		<Copyright />
       </Box>
     </Container>
   );

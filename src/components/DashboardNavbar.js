@@ -11,9 +11,24 @@ import {
 import MenuIcon from '@material-ui/icons/Menu';
 import InputIcon from '@material-ui/icons/Input';
 import Logo from './Logo';
+import { useAuth } from 'src/helpers/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
-const DashboardNavbar = ({ onMobileNavOpen, ...rest }) => (
-  <AppBar
+const DashboardNavbar = ({ onMobileNavOpen, ...rest }) => {
+
+  const { currentUser, logout } = useAuth();
+  let navigate = useNavigate();
+
+  const handleClick = async () => {
+    try {
+      await logout();
+      navigate('/');
+    } catch {
+      console.log('failed to log out')
+    }
+  }
+
+  return(<AppBar
     elevation={0}
     {...rest}
   >
@@ -23,8 +38,8 @@ const DashboardNavbar = ({ onMobileNavOpen, ...rest }) => (
       </RouterLink>
       <Box sx={{ flexGrow: 1 }} />
       <Hidden lgDown>
-        <IconButton color="inherit">
-          <InputIcon />
+        <IconButton color="inherit"  onClick={handleClick}>
+          <InputIcon/>
         </IconButton>
       </Hidden>
       <Hidden lgUp>
@@ -36,8 +51,8 @@ const DashboardNavbar = ({ onMobileNavOpen, ...rest }) => (
         </IconButton>
       </Hidden>
     </Toolbar>
-  </AppBar>
-);
+  </AppBar>);
+};
 
 DashboardNavbar.propTypes = {
   onMobileNavOpen: PropTypes.func

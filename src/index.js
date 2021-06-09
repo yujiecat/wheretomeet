@@ -5,9 +5,12 @@ import App from './App'
 import * as serviceWorker from './helpers/serviceWorker'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter } from 'react-router-dom'
+import { AuthProvider } from 'src/helpers/AuthContext';
 
 ReactDOM.render(<BrowserRouter>
-<App />
+  <AuthProvider>
+	<App />
+  </AuthProvider>
 </BrowserRouter>, document.getElementById("root"));
 
 // If you want your app to work offline and load faster, you can change

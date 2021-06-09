@@ -2,7 +2,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import Grid from '@material-ui/core/Grid'
-import React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -17,6 +17,7 @@ import Container from '@material-ui/core/Container';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useAuth } from 'src/helpers/AuthContext.js';
 
 function Copyright() {
   return (
@@ -52,6 +53,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignUp() {
+
+  const [loading, setLoading] = useState(true);
+  const { signup, currentUser } = useAuth()
   const classes = useStyles();
   let navigate = useNavigate();
 
@@ -64,6 +68,7 @@ export default function SignUp() {
         </Avatar>
         <Typography component="h1" variant="h5">
           Sign Up
+          {currentUser && currentUser.email}
         </Typography>
         <Container maxWidth="sm">
           <Formik
@@ -84,26 +89,36 @@ export default function SignUp() {
               })
             }
             //TODO: authentication + session token
-            onSubmit={(values) => {
-              const user = {
-                displayName: values.displayName,
-                username: values.userName,
-                email: values.email,
-                password: values.password,
+            onSubmit={ async (values) => {
+                
+              try {
+                setLoading(true);
+                await signup(values.email, values.password);
+                navigate('/app/dashboard');
+              } catch {
+                console.log('error with signing up');
               }
 
-              axios.post('/users', {user}).then(response => {
-                if(response.status == 200) {
-                  console.log("sign up successful");
-                  localStorage.setItem('user', response.data)
-                  navigate('/app/dashboard');
-                }
-                else {
-                  alert('error in creating user');
-                }
-              }).catch(error => {
-                console.log(error);
-              });
+              setLoading(false);
+              // const user = {
+              //   displayName: values.displayName,
+              //   username: values.userName,
+              //   email: values.email,
+              //   password: values.password,
+              // }
+
+              // axios.post('/users', {user}).then(response => {
+              //   if(response.status === 200) {
+              //     console.log("sign up successful");
+              //     localStorage.setItem('user', response.data)
+              //     navigate('/app/dashboard');
+              //   }
+              //   else {
+              //     alert('error in creating user');
+              //   }
+              // }).catch(error => {
+              //   console.log(error);
+              // });
             }}
 
           >

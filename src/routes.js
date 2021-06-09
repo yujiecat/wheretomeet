@@ -11,11 +11,12 @@ import Home from 'src/pages/homepage';
 import Login from 'src/pages/signinpage';
 import Register from 'src/pages/signuppage';
 import Group from 'src/pages/Group';
+import ForgotPassword from 'src/pages/ForgotPassword';
 
-const routes = [
+const routes = (isLoggedIn) => [
   {
     path: 'app',
-    element: <DashboardLayout />,
+    element: isLoggedIn ? <DashboardLayout /> : <Navigate to="/" />,
     children: [
       { path: 'group', element: <Group />},
       { path: 'account', element: <Account /> },
@@ -35,6 +36,7 @@ const routes = [
       { path: 'login', element: <Login /> },
       { path: 'register', element: <Register /> },
       { path: '404', element: <NotFound /> },
+      { path: 'forgotpassword', element: <ForgotPassword />},
       { path: '/', element: <Navigate to="/app/dashboard" /> },
       { path: '*', element: <Navigate to="/404" /> }
     ]
