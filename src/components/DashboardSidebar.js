@@ -57,11 +57,12 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
 
   const updateGroups = () => {
     setRerender(!rerender);
+    console.log("rerender");
   }
 
-  const retrieveFriendsListData = async() => {
+  const retrieveGroupsListData = async() => {
     if(loggedInUser != null) {
-      await axios.get('/user/' + encodeURIComponent(loggedInUser.userId) + '/groups')
+      await axios.get('/groupsList/' + encodeURIComponent(loggedInUser.userId))
       .then(response => {
           if(response.status === 200) {
             return response.data;
@@ -82,7 +83,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
     if (openMobile && onMobileClose) {
       onMobileClose();
     }
-    retrieveFriendsListData();
+    retrieveGroupsListData();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname, rerender]);
 
