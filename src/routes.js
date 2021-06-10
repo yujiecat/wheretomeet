@@ -12,7 +12,7 @@ import Login from 'src/pages/signinpage';
 import Register from 'src/pages/signuppage';
 import Group from 'src/pages/Group';
 
-const routes = (groupId) => [
+const routes = [
   {
     path: 'app',
     element: <DashboardLayout />,
@@ -39,13 +39,6 @@ const routes = (groupId) => [
       { path: '*', element: <Navigate to="/404" /> }
     ]
   },
-  {
-    path: 'app/group',
-    element: <DashboardLayout />,
-    children: [
-      {path: groupId, element: <Group groupId = {groupId}/>},
-    ]
-  }
 ];
 
 export default routes;

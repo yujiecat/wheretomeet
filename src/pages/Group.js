@@ -12,6 +12,7 @@ import { getDetails } from 'use-places-autocomplete';
 import { GoogleMap } from '@react-google-maps/api';
 import axios from 'axios';
 import Voting from 'src/helpers/Voting.js';
+import { useParams } from 'react-router-dom';
 
 // temporarily here before api hooks
 
@@ -35,12 +36,12 @@ const GroupDashboard = () => {
 	// grab suggested locations of a group here
 	// also grab user's home locations here
 
-  const selectedGroupId = localStorage.getItem("recentlySelectedGroup");
+  const { groupId } = useParams();
+
   const [group, setGroup] = React.useState([]);
 
   const retrieveGroupData = async() => {
-    if(selectedGroupId != null) {
-      await axios.get('/group/id/' + selectedGroupId)
+      await axios.get('/group/id/' + groupId)
       .then(response => {
         if(response.status === 200) {
           return response.data;
@@ -51,17 +52,15 @@ const GroupDashboard = () => {
       })
       .then(data => {
         setGroup(data)
-        console.log(data);
       })
       .catch(error => {
         console.log('error retrieving group data: ' + error);
       })
-    }
   }
 
   React.useEffect(() => {
     retrieveGroupData();
-  }, [selectedGroupId]);
+  }, [groupId]);
 
 	const [markers, setMarkers] = React.useState([]);
 	// eslint-disable-next-line no-unused-vars
@@ -125,8 +124,8 @@ const GroupDashboard = () => {
         venueId: "123456789",
       }
   
-      if(selectedGroupId != null) {
-        axios.put('/group/' + selectedGroupId + '/add/location', venue)
+      if(groupId != null) {
+        axios.put('/group/' + groupId + '/add/location', venue)
         .then(response => {
           if(response.status === 200) {
             console.log('venue pushed to group successfully');

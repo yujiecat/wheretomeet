@@ -12,7 +12,7 @@ import { ChevronRight } from 'react-feather';
 import React from 'react';
 import axios from 'axios';
 import getInitials from 'src/utils/getInitials';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, generatePath} from 'react-router-dom';
 
 const ListItem = withStyles({
   root: {
@@ -33,7 +33,6 @@ const ListItem = withStyles({
 })(MuiListItem);
 
 const GroupsList = ({ groups }) => {
-  console.log('group: ', groups);
   let navigate = useNavigate();
 
   const handleClick = (gid) => {
@@ -45,8 +44,14 @@ const GroupsList = ({ groups }) => {
     })
     .then(data => {
       alert('retrieved group ' + data.groupName + ' ' + data.groupId);
-      localStorage.setItem("recentlySelectedGroup", gid);
-      navigate('/app/group/' + gid);
+
+      const groupPath = generatePath(
+        '/app/group/?:groupId', 
+        { groupId: gid }
+      );
+      
+      navigate(groupPath);
+
     })
     .catch(error => {
       alert('error retrieving group..' + error);
