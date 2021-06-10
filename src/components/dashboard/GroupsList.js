@@ -32,8 +32,8 @@ const ListItem = withStyles({
   selected: {}
 })(MuiListItem);
 
-const GroupsList = () => {
-
+const GroupsList = ({ refresh }) => {
+  const [rerender, setRerender] = React.useState(refresh);
   const [groups, setGroups] = React.useState([]);
   const loggedInUser = JSON.parse(localStorage.getItem('user'));
   let navigate = useNavigate();

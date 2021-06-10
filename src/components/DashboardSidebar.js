@@ -18,7 +18,6 @@ import NavItem from './NavItem';
 import GroupsList from './dashboard/GroupsList';
 import CreateGroupFab from './../helpers/CreateGroupFab.js';
 import React, { useState } from 'react';
-import axios from 'axios';
 
 const user = {
   avatar: '/static/images/avatars/avatar_6.png',
@@ -52,39 +51,18 @@ const items = [
 const DashboardSidebar = ({ onMobileClose, openMobile }) => {
   const location = useLocation();
   const [rerender, setRerender] = useState(false);
-  const [groups, setGroups] = useState([]);
-  const loggedInUser = JSON.parse(localStorage.getItem('user'));
 
   const updateGroups = () => {
     setRerender(!rerender);
   }
 
-  const retrieveFriendsListData = async() => {
-    if(loggedInUser != null) {
-      await axios.get('/user/' + encodeURIComponent(loggedInUser.userId) + '/groups')
-      .then(response => {
-          if(response.status === 200) {
-            return response.data;
-          }
-          else{
-            console.log('cannot find groups');
-          }})
-      .then(data => {
-        setGroups(data.groups);
-        console.log(groups);
-      })} 
-    else {
-      alert('unable to locate groups');
-    }
-  }
 
   useEffect(() => {
     if (openMobile && onMobileClose) {
       onMobileClose();
     }
-    retrieveFriendsListData();
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location.pathname, rerender]);
+  }, [location.pathname]);
 
   const content = (
     <Box
@@ -140,7 +118,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
         ))}
       </Box>
       <Box sx={{}}>
-        <GroupsList />
+        <GroupsList refresh={rerender}/>
         <CreateGroupFab onCreate={() => updateGroups}/>
       </Box>
     </Box>
