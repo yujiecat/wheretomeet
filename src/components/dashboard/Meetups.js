@@ -12,7 +12,7 @@ const Meetups = (props) => (
 
   <Card 
     sx={{
-      height: '100%',
+      height: '200%',
       display: 'flex',
       alignItems: 'center',
       p: 1
@@ -22,26 +22,13 @@ const Meetups = (props) => (
       <Container>        
       <Grid
         container
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-        }}
-        >
-        <Grid item>
-          <Typography
-            color="textSecondary"
-            gutterBottom
-            variant="h3"
-          >
-            Future Meetups
-          </Typography>
-        </Grid>
-      </Grid>
-        <Grid item>
+        justifyContent="center"
+        display="flex"
+      >
           <Calendar
             calendarType="US"
           />
-        </Grid>
+      </Grid>
      </Container>
   </Card>
 );

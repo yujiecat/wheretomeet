@@ -103,11 +103,9 @@ const PlacesAutocomplete = ({ onSelect }) => {
   };
 
   const handleSelect = useCallback((val) => {
-	getGeocode({ address: val })
-	.then((results) => getLatLng(results[0]))
-	.then(({ lat, lng }) => {
-		onSelect({lat, lng}, val)
-		console.log("coords: ", { lat, lng })
+	getGeocode({ address: val }).then((results) => {
+    getLatLng(results[0]).then(({ lat, lng }) => {
+		onSelect({lat, lng}, results)})
 	}).catch((err) => {
 		console.log("Uh oh: ", err)
 	})

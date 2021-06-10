@@ -6,10 +6,20 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
 import axios from 'axios'
 
+const style = {
+    margin: 0,
+    top: 'auto',
+    right: 'auto',
+    bottom: 20,
+    left: 54	,
+    position: 'fixed',
+};
 
-export default function CreateGroup() {
+export default function CreateGroupFab({onCreate}) {
   const [open, setOpen] = React.useState(false);
   const [groupName, setGroupName] = React.useState('');
   const [groupPassword, setGroupPassword] = React.useState('');
@@ -23,9 +33,6 @@ export default function CreateGroup() {
     setOpen(false);
   };
 
-  //TODO: 
-  // 1. populate group's list
-  // 2. redirect to group page..?
   const handleSubmit = () => {
 
     const group = {
@@ -33,7 +40,7 @@ export default function CreateGroup() {
       groupPassword: groupPassword,
       groupOwner: loggedInUser,
       groupMembers: [loggedInUser]
-    };
+    }
 
     axios.post('/groups/', group)
       .then(response => {
@@ -63,13 +70,13 @@ export default function CreateGroup() {
     .catch(error => {
       console.log(error);
     });
-  }
 
+  }
   return (
     <div>
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        Create Group
-      </Button>
+      <Fab variant="extended" color="primary" onClick={handleClickOpen} style={style}>
+        <AddIcon />  Create Group
+      </Fab>
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Create A New Group</DialogTitle>
         <DialogContent>
