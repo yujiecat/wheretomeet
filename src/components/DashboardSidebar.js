@@ -18,6 +18,7 @@ import NavItem from './NavItem';
 import GroupsList from './dashboard/GroupsList';
 import CreateGroupFab from './../helpers/CreateGroupFab.js';
 import React, { useState } from 'react';
+import axios from 'axios';
 
 const user = {
   avatar: '/static/images/avatars/avatar_6.png',
@@ -51,16 +52,42 @@ const items = [
 const DashboardSidebar = ({ onMobileClose, openMobile }) => {
   const location = useLocation();
   const [rerender, setRerender] = useState(false);
+  const [groups, setGroups] = useState([]);
+  const loggedInUser = JSON.parse(localStorage.getItem('user'));
 
   const updateGroups = () => {
     setRerender(!rerender);
+    retrieveUsersGroupsData();
   }
 
+    const retrieveUsersGroupsData = async() => {
+    if(loggedInUser != null) {
+      await axios.get('/groupsList/' + encodeURIComponent(loggedInUser.userId))
+      .then(response => {
+          if(response.status === 200) {
+            return response.data;
+          }
+          else {
+            alert('Error retrieving group data :(');
+          }
+      })
+      .then(data => {
+         setGroups(data.groups);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+    }
+    else {
+      alert('unable to locate userId');
+    }
+  }
 
   useEffect(() => {
     if (openMobile && onMobileClose) {
       onMobileClose();
     }
+    retrieveUsersGroupsData();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname]);
 
@@ -118,7 +145,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
         ))}
       </Box>
       <Box sx={{}}>
-        <GroupsList refresh={rerender}/>
+        <GroupsList group={groups}/>
         <CreateGroupFab onCreate={() => updateGroups}/>
       </Box>
     </Box>
