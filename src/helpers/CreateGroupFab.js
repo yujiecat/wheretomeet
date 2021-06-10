@@ -58,6 +58,7 @@ export default function CreateGroupFab({onCreate}) {
       .then(response => {
         if(response.status === 200) {
           console.log('group added to user\'s group list');
+          onCreate();
         }
         else {
           alert('error saving group details');

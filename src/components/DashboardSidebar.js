@@ -86,13 +86,6 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname, rerender]);
 
-  // const[state, setState] = React.useState(false);
-
-  // const refreshPage = () => {
-  //   setState(!state);
-  //   retrieveFriendsListData();
-  // }
-
   const content = (
     <Box
       sx={{
