@@ -12,7 +12,7 @@ import Login from 'src/pages/signinpage';
 import Register from 'src/pages/signuppage';
 import Group from 'src/pages/Group';
 
-const routes = [
+const routes = (groupId) => [
   {
     path: 'app',
     element: <DashboardLayout />,
@@ -37,6 +37,13 @@ const routes = [
       { path: '404', element: <NotFound /> },
       { path: '/', element: <Navigate to="/app/dashboard" /> },
       { path: '*', element: <Navigate to="/404" /> }
+    ]
+  },
+  {
+    path: 'app/group',
+    element: <DashboardLayout />,
+    children: [
+      {path: groupId, element: <Group groupId = {groupId}/>},
     ]
   }
 ];

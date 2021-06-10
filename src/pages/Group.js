@@ -36,6 +36,7 @@ const GroupDashboard = () => {
 	// also grab user's home locations here
 
   const selectedGroupId = localStorage.getItem("recentlySelectedGroup");
+  const [group, setGroup] = React.useState([]);
 
   const retrieveGroupData = async() => {
     if(selectedGroupId != null) {
@@ -49,6 +50,7 @@ const GroupDashboard = () => {
         }
       })
       .then(data => {
+        setGroup(data)
         console.log(data);
       })
       .catch(error => {
@@ -59,7 +61,7 @@ const GroupDashboard = () => {
 
   React.useEffect(() => {
     retrieveGroupData();
-  }, []);
+  }, [selectedGroupId]);
 
 	const [markers, setMarkers] = React.useState([{lat: 10, lng: 10}]);
 	// eslint-disable-next-line no-unused-vars
@@ -140,10 +142,9 @@ const GroupDashboard = () => {
     }
   }
 
-
   return(<>
     <Helmet>
-      <title>GroupNameHere</title>
+      <title>{group.groupName}</title>
     </Helmet>
     <Box
       sx={{
@@ -153,6 +154,7 @@ const GroupDashboard = () => {
       }}
     >
       <Container maxheight="lg">
+      <h1>{group.groupId}</h1>
 		<Box display='flex' justifyContent='center' sx={{pt: 3}}>
 			<Map height='60rem' width='25rem' zoom='11' markers={markers}/>
 		</Box>

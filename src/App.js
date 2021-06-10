@@ -7,7 +7,7 @@ import GlobalStyles from 'src/components/GlobalStyles';
 import theme from 'src/theme';
 
 const App = () => {
-    const routing = useRoutes(routes);
+    const routing = useRoutes(routes(localStorage.getItem('recentlySelectedGroup')));
 
   return (
     <ThemeProvider theme={theme}>

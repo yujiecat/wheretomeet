@@ -46,7 +46,7 @@ const GroupsList = ({ groups }) => {
     .then(data => {
       alert('retrieved group ' + data.groupName + ' ' + data.groupId);
       localStorage.setItem("recentlySelectedGroup", gid);
-      navigate('/app/group');
+      navigate('/app/group/' + gid);
     })
     .catch(error => {
       alert('error retrieving group..' + error);
