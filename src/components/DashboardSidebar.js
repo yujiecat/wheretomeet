@@ -142,7 +142,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
       </Box>
       <Box sx={{}}>
         <GroupsList />
-        <CreateGroupFab onCreate={updateGroups}/>
+        <CreateGroupFab onCreate={() => updateGroups}/>
       </Box>
     </Box>
   );
