@@ -24,7 +24,6 @@ const FriendsListToolbar = ({refreshFriends}) => {
         p: 0.25
       }}
     >
-      <CreateGroup />
       <AddFriend refreshFriends={refresh}/>
     </Box>
     <Box sx={{ mt: 2 }}>

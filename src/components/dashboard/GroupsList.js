@@ -32,34 +32,9 @@ const ListItem = withStyles({
   selected: {}
 })(MuiListItem);
 
-const GroupsList = ({ refresh }) => {
-  const [rerender, setRerender] = React.useState(refresh);
-  const [groups, setGroups] = React.useState([]);
-  const loggedInUser = JSON.parse(localStorage.getItem('user'));
+const GroupsList = ({ groups }) => {
+  console.log('group: ', groups);
   let navigate = useNavigate();
-
-  const retrieveUsersGroupsData = async() => {
-    if(loggedInUser != null) {
-      await axios.get('/groupsList/' + encodeURIComponent(loggedInUser.userId))
-      .then(response => {
-          if(response.status === 200) {
-            return response.data;
-          }
-          else {
-            alert('Error retrieving group data :(');
-          }
-      })
-      .then(data => {
-         setGroups(data.groups);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-    }
-    else {
-      alert('unable to locate userId');
-    }
-  }
 
   const handleClick = (gid) => {
     axios.get('/group/id/' + gid)
@@ -77,10 +52,6 @@ const GroupsList = ({ refresh }) => {
       alert('error retrieving group..' + error);
     });
   };
-
-  React.useEffect(() => {
-    retrieveUsersGroupsData();
-  }, []);
 
   return (
     <Card>

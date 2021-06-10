@@ -47,7 +47,6 @@ export default function CreateGroupFab({onCreate}) {
         if(response.status === 200) {
           alert('Group created!');
           handleClose();
-          onCreate();
           return response.data;
         }
         else {
