@@ -63,7 +63,7 @@ const GroupDashboard = () => {
     retrieveGroupData();
   }, [selectedGroupId]);
 
-	const [markers, setMarkers] = React.useState([{lat: 10, lng: 10}]);
+	const [markers, setMarkers] = React.useState([]);
 	// eslint-disable-next-line no-unused-vars
 	const [homeLocations, setHomeLocations] = React.useState([]);
 
@@ -156,7 +156,7 @@ const GroupDashboard = () => {
       <Container maxheight="lg">
       <h1>{group.groupId}</h1>
 		<Box display='flex' justifyContent='center' sx={{pt: 3}}>
-			<Map height='60rem' width='25rem' zoom='11' markers={markers}/>
+			<Map height='60rem' width='25rem' zoom='11' markers={markers} coords={{lat: 49.1666, lng: 123.1336}}/>
 		</Box>
         <Box sx={{ pt: 3 }}>
           <Grid
@@ -180,7 +180,7 @@ const GroupDashboard = () => {
         </Box>
         <Box>
 		  <MessageList />
-      <Voting />
+      <Voting suggestions={markers} />
         </Box>
       </Container>
     </Box>

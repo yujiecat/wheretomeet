@@ -62,7 +62,7 @@ export default function SignIn() {
 
     axios.get('user/email/' + email)
     .then(response => {
-      if(response.status == 200) {
+      if(response.status === 200) {
         return response.data;
       }
       else {

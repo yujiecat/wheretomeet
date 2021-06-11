@@ -8,7 +8,6 @@ import {
 } from '@material-ui/core';
 import { Search as SearchIcon } from 'react-feather';
 import AddFriend from 'src/helpers/AddFriend.js';
-import CreateGroup from 'src/helpers/CreateGroup.js';
 
 const FriendsListToolbar = ({refreshFriends}) => {
 
