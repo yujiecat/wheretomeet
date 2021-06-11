@@ -27,7 +27,7 @@ const home = [
 
 
 function Map(props) {
-	const {height, width, zoom, markers, info} = props;
+	const {height, width, zoom, markers, coords, info} = props;
 
 	//grab home locations + suggestions here for markers + distance
 		const containerStyle = {
@@ -39,7 +39,6 @@ function Map(props) {
 
 
 	// loads map
-	const coords = { lat: 49.233741, lng: -123.124675 }
 	const { isLoaded } = useJsApiLoader({
 		id: 'google-map-script',
 		googleMapsApiKey: "AIzaSyA5N_RMyoxca6XTwqQt6QBRFSXO91t_jgw"

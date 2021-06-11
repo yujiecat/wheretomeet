@@ -12,12 +12,12 @@ import Login from 'src/pages/signinpage';
 import Register from 'src/pages/signuppage';
 import Group from 'src/pages/Group';
 
-const routes = [
+const routes = (sendMessage, chatMessages, messageIds) => [
   {
     path: 'app',
     element: <DashboardLayout />,
     children: [
-      { path: 'group', element: <Group />},
+      { path: 'group', element: <Group message={sendMessage} chat={chatMessages} ids={messageIds}/>},
       { path: 'account', element: <Account /> },
       { path: 'customers', element: <FriendList /> },
       { path: 'dashboard', element: <Dashboard /> },

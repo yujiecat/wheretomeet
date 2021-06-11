@@ -31,7 +31,7 @@ const home = [
 ];
 
 // group design
-const GroupDashboard = () => {
+const GroupDashboard = ({message, chat, ids}) => {
 
 	// grab suggested locations of a group here
 	// also grab user's home locations here
@@ -178,7 +178,7 @@ const GroupDashboard = () => {
 			<PlacesAutocomplete onSelect = {(val, place) => {handleMarkers(markers, val, place); handleDistance(val); console.log("??", place)}} />
         </Box>
         <Box>
-		  <MessageList />
+		  <MessageList message={message} chatMessage={chat} messageIds={ids}/>
       <Voting suggestions={markers} />
         </Box>
       </Container>

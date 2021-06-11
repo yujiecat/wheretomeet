@@ -3,17 +3,22 @@ import Message from './Message';
 import moment from 'moment';
 import Compose from './Compose.js'
 
+// used to determine who sent message
 const MY_USER_ID = 'apple';
 
-export default function MessageList(props) {
+export default function MessageList({message, chatMessage, messageIds}) {
   const [messages, setMessages] = useState([])
+
+  console.log('grabbed messages: ', chatMessage);
+  console.log('ids: ', messageIds)
 
   useEffect(() => {
     getMessages();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  
+  // need to modify the flow of how we grab and render messages below
+
   const getMessages = () => {
      var tempMessages = [
         {
@@ -106,7 +111,7 @@ export default function MessageList(props) {
           startsSequence = false;
         }
 
-        if (previousDuration.as('hours') < 1) {
+        if (previousDuration.as('minutes') < 10) {
           showTimestamp = false;
         }
       }
@@ -142,7 +147,7 @@ export default function MessageList(props) {
     return(
       <div className="message-list">
         <div className="message-list-container">{renderMessages()}</div>
-		<Compose />
+		<Compose message={message}/>
       </div>
     );
 }
