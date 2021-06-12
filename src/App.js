@@ -9,7 +9,7 @@ import SockJs from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
 
 // update localhost address here - this is setup
-const socket = new SockJs("https://localhost:8080/", {}, {CheckOrigin: () => false});
+const socket = new SockJs("http://localhost:8080/stomp", {}, {CheckOrigin: () => false});
 socket.onopen = () => {
   console.log('connected');
 };
@@ -18,9 +18,6 @@ socket.onclose = () => {
 }
 
 const stompClient = Stomp.over(socket);
-stompClient.connect({}, () => {
-  console.log('Connected to chat server.');
-});
 
 
 const App = () => {
@@ -36,18 +33,25 @@ const App = () => {
   };
 
   const sendChatMessage = (newMessage) => {
-    const messageObj = {userName, messageContent: newMessage, messageId: currentMessageId};
-    stompClient.publish({destination: '/api/chat', body: JSON.stringify(messageObj)});
+    const messageObj = {
+      userName, 
+      message: newMessage, 
+      messageId: currentMessageId
+    };
+    stompClient.publish({destination: '/app/chat', body: JSON.stringify(messageObj)});
     updateMessageId(currentMessageId + 1);
   };
 
-  if(stompClient.connected) {
-    stompClient.subscribe('/chat', (message) => {
-      console.log('message received', message);
-      addNewChatMessage(JSON.parse(message.body));
+  if(!stompClient.connected) {
+    stompClient.connect({}, () => {
+      console.log('Connected to chat server.');
+      stompClient.subscribe('/topic/messages', (message) => {
+        // console.log('message received', message);
+        addNewChatMessage(JSON.parse(message.body));
+      });
     });
-
   }
+
   const routing = useRoutes(routes(sendChatMessage, chatMessages, currentMessageId));
 
   return (
