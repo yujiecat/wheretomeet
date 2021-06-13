@@ -39,6 +39,13 @@ const routes = (sendMessage, chatMessages, messageIds) => [
       { path: '*', element: <Navigate to="/404" /> }
     ]
   },
+  {
+    path: 'app/group/',
+    element: <DashboardLayout />,
+    children: [
+      {path: ':groupId', element: <Group />}
+    ]
+  }
 ];
 
 export default routes;
