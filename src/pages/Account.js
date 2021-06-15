@@ -14,11 +14,11 @@ import React from 'react';
 
 const Account = () => {
 
-  const { groupId } = useParams();
   const [homeLocations, setHomeLocations] = React.useState([]);
+  const loggedinUser = JSON.parse(localStorage.getItem('user'));
 
   const retrieveHomeLocations = async () => {
-    await axios.get('/user/home/' + groupId)
+    await axios.get('/user/homes/' + encodeURIComponent(loggedinUser.userId))
     .then(response => {
       if(response.status === 200) {
         return response.data;

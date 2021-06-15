@@ -20,7 +20,7 @@ import axios from 'axios';
 
 const testHomes = [
   {
-    homeCoordinates: [{ lat: 49, lng: -123.124675 }],
+    homeCoordinates: [49, 123.124675],
     homeName: 'ily',
     homeAddress: '',
   },
@@ -37,9 +37,16 @@ const AccountProfileDetails = ({homes, setHome}) => {
 
   const hasHomes = markers.length > 0;
 
- 	const handleMarkers = (markers, val) => {
+ 	const addHome = (markers, val) => {
+
+    const newHome = {
+      homeName: 'Elmo\'s',
+      homeCoordinates: [49, 123.124675],
+      homeAddress: '123 Sesame Street',
+    }
+
     if(markers.length < 3){
-      axios.put('/user/' + loggedInUser + '/add/homes')
+      axios.put('/user/' + encodeURIComponent(loggedInUser.userId) + '/add/homes', newHome)
         .then(response => {
           if(response.status === 200) {
             console.log('home added successfully');
@@ -62,13 +69,13 @@ const AccountProfileDetails = ({homes, setHome}) => {
     if(loggedInUser != null) {
       const user = encodeURIComponent(loggedInUser.userId);
       const home = {
-        homeName: 'ily',
-        homeCoordinates: [49, -123.124675],
-        homeAddress: ''
+        homeName: 'Elmo\'s',
+        homeCoordinates: [49, 123.124675],
+        homeAddress: '123 Sesame Street',
       };
-      const friendRequestUri = '/user/' + user + '/delete/homes/';
+      const deleteHomeUri = '/user/' + user + '/delete/homes/';
 
-      axios.delete(friendRequestUri , {home})
+      axios.put(deleteHomeUri, home)
       .then(response => {
         if(response.status === 200) {
           alert("Home removed.");
@@ -141,7 +148,7 @@ const AccountProfileDetails = ({homes, setHome}) => {
                 value={name}
                 variant="outlined"
               />
-          <PlacesAutocomplete onSelect = {(val) => {handleMarkers(markers, val)}} />
+          <PlacesAutocomplete onSelect = {(val) => {addHome(markers, val)}} />
         </Box>
 		    <Box display='flex' justifyContent='center' sx={{pt: 1, pb: 2}}>
           <Map height='48rem' width='20rem' zoom='11'markers={[]} homes={markers} />
