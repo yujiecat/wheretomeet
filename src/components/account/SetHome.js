@@ -4,39 +4,89 @@ import {
   Box,
   CardHeader,
   Divider,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+  Typography,
+  IconButton
 } from '@material-ui/core';
+import ClearIcon from '@material-ui/icons/Clear';
 import { TextField } from '@material-ui/core';
 import Map from 'src/helpers/Map.js';
 import PlacesAutocomplete from 'src/helpers/AutoComplete.js';
+import axios from 'axios';
 
-const data = [
-
+const testHomes = [
   {
-    lat: 50, 
-    lng: -123.124675 
+    homeCoordinates: [{ lat: 49, lng: -123.124675 }],
+    homeName: 'ily',
+    homeAddress: '',
   },
+];
 
-  {
-    lat: 50.233700,
-    lng: -123
-  },
-
-]
-
-const AccountProfileDetails = (props) => {
-  const [markers, setMarkers] = useState(data);
+const AccountProfileDetails = ({homes, setHome}) => {
+  const [markers, setMarkers] = useState(testHomes);
   const [name, setName] = useState('');
+  const loggedInUser = JSON.parse(localStorage.getItem('user'));
 
     const handleChange = (event) => {
     setName(event.value);
   };
 
+  const hasHomes = markers.length > 0;
+
  	const handleMarkers = (markers, val) => {
-    if(markers.length < 3)
-		  setMarkers(markers => [...markers, val]);
+    if(markers.length < 3){
+      axios.put('/user/' + loggedInUser + '/add/homes')
+        .then(response => {
+          if(response.status === 200) {
+            console.log('home added successfully');
+            setMarkers(markers => [...markers, val]);
+          }
+          else {
+            alert("network error");
+          }
+        })
+        .catch(error => {
+          console.log(error);
+      });
+    }
     else alert('You have the max number of home locations. Please remove one first before adding another! (Click on the marker and delete it!)')
 		console.log('markers', markers);
+
 	}
+
+  const deleteHome = () => {
+    if(loggedInUser != null) {
+      const user = encodeURIComponent(loggedInUser.userId);
+      const home = {
+        homeName: 'ily',
+        homeCoordinates: [49, -123.124675],
+        homeAddress: ''
+      };
+      const friendRequestUri = '/user/' + user + '/delete/homes/';
+
+      axios.delete(friendRequestUri , {home})
+      .then(response => {
+        if(response.status === 200) {
+          alert("Home removed.");
+          setHome();
+        } 
+        else {
+          alert("Cannot find home to remove.");
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+    } else {
+      alert('cannot locate userId');
+  }
+}
+
+// TODO: styling
 
   return (
       <Card>
@@ -48,6 +98,39 @@ const AccountProfileDetails = (props) => {
           title="Home Locations"
         />
         <Divider />
+        
+  <Table>
+      {/* list header */}
+      <TableHead>
+        <TableRow>
+          <TableCell>Locations</TableCell>
+          <TableCell align='right'>Remove</TableCell>
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        {hasHomes ? markers.map((m) => {
+          return(
+          <TableRow key={m.coords}>
+              {/* list of home locations */}
+              <TableCell>
+                <Box>
+                  <Typography fontSize={24} color='black' ml={7.30} mt={-5.55}>{m.name}</Typography>
+                </Box>
+              </TableCell>
+
+              {/* Options Button*/}
+              <TableCell align='right'>
+                <Box>
+                  <IconButton onClick={() => deleteHome()} >
+                    <ClearIcon/>
+                  </IconButton>
+                </Box>
+              </TableCell>
+
+          </TableRow>
+        )}): <></>}
+      </TableBody>
+    </Table>
         <Box display='flex' justifyContent='center' sx={{pt: 1}}>
           <TextField
                 helperText="Home Name"
@@ -57,10 +140,11 @@ const AccountProfileDetails = (props) => {
                 required
                 value={name}
                 variant="outlined"
-              />			    <PlacesAutocomplete onSelect = {(val) => {handleMarkers(markers, val)}} />
+              />
+          <PlacesAutocomplete onSelect = {(val) => {handleMarkers(markers, val)}} />
         </Box>
 		    <Box display='flex' justifyContent='center' sx={{pt: 1, pb: 2}}>
-          <Map height='48rem' width='20rem' zoom='11' markers={markers} />
+          <Map height='48rem' width='20rem' zoom='11'markers={[]} homes={markers} />
         </Box>
         <Divider />
       </Card>
