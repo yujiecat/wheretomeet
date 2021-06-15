@@ -1,16 +1,29 @@
 import React, {useEffect, useState} from 'react';
 import Message from './Message';
 import moment from 'moment';
-import Compose from './Compose.js'
+import Compose from './Compose.js';
+import stompClient from 'src/helpers/StompClient.js';
+import { useParams } from 'react-router';
 
 // used to determine who sent message
 const MY_USER_ID = 'apple';
 
-export default function MessageList({message, chatMessage, messageIds}) {
+export default function MessageList({groupId}) {
   const [messages, setMessages] = useState([])
 
-  console.log('grabbed messages: ', chatMessage);
-  console.log('ids: ', messageIds)
+    console.log('messages from: ', groupId);
+
+    if(!stompClient.connected) {
+      stompClient.connect({}, () => {
+        console.log('Connected to chat server.');
+        stompClient.subscribe('/topic/messages/' + groupId, (message) => {
+          console.log(message.body);
+        });
+      });
+    }
+  
+  // console.log('grabbed messages: ', chatMessage);
+  // console.log('ids: ', messageIds)
 
   useEffect(() => {
     getMessages();
@@ -29,54 +42,6 @@ export default function MessageList({message, chatMessage, messageIds}) {
         },
         {
           id: 2,
-          author: 'orange',
-          message: 'It looks like it wraps exactly as it is supposed to. Lets see what a reply looks like!',
-          timestamp: new Date().getTime()
-        },
-        {
-          id: 3,
-          author: 'orange',
-          message: 'Hello world! This is a long message that will hopefully get wrapped by our message bubble component! We will see how well it works.',
-          timestamp: new Date().getTime()
-        },
-        {
-          id: 4,
-          author: 'apple',
-          message: 'It looks like it wraps exactly as it is supposed to. Lets see what a reply looks like!',
-          timestamp: new Date().getTime()
-        },
-        {
-          id: 5,
-          author: 'apple',
-          message: 'Hello world! This is a long message that will hopefully get wrapped by our message bubble component! We will see how well it works.',
-          timestamp: new Date().getTime()
-        },
-        {
-          id: 6,
-          author: 'apple',
-          message: 'It looks like it wraps exactly as it is supposed to. Lets see what a reply looks like!',
-          timestamp: new Date().getTime()
-        },
-        {
-          id: 7,
-          author: 'orange',
-          message: 'Hello world! This is a long message that will hopefully get wrapped by our message bubble component! We will see how well it works.',
-          timestamp: new Date().getTime()
-        },
-        {
-          id: 8,
-          author: 'orange',
-          message: 'It looks like it wraps exactly as it is supposed to. Lets see what a reply looks like!',
-          timestamp: new Date().getTime()
-        },
-        {
-          id: 9,
-          author: 'apple',
-          message: 'Hello world! This is a long message that will hopefully get wrapped by our message bubble component! We will see how well it works.',
-          timestamp: new Date().getTime()
-        },
-        {
-          id: 10,
           author: 'orange',
           message: 'It looks like it wraps exactly as it is supposed to. Lets see what a reply looks like!',
           timestamp: new Date().getTime()
@@ -147,7 +112,8 @@ export default function MessageList({message, chatMessage, messageIds}) {
     return(
       <div className="message-list">
         <div className="message-list-container">{renderMessages()}</div>
-		<Compose message={message}/>
+		{/* <Compose message={message}/> */}
+    <Compose groupId = {groupId}/>
       </div>
     );
 }
