@@ -9,7 +9,6 @@ import Map from 'src/helpers/Map.js';
 import PlacesAutocomplete from 'src/helpers/AutoComplete.js';
 import MessageList from 'src/helpers/MessageList.js';
 import { getDetails } from 'use-places-autocomplete';
-import { GoogleMap } from '@react-google-maps/api';
 import axios from 'axios';
 import Voting from 'src/helpers/Voting.js';
 import { useParams } from 'react-router-dom';
@@ -37,8 +36,9 @@ const GroupDashboard = () => {
 	// also grab user's home locations here
 
   const { groupId } = useParams();
-
   const [group, setGroup] = React.useState([]);
+  const loggedInUser = JSON.parse(localStorage.getItem('user'));
+
 
   const retrieveGroupData = async() => {
       await axios.get('/group/id/' + groupId)
@@ -58,8 +58,40 @@ const GroupDashboard = () => {
       })
   }
 
+    const retrieveMarkers = async () => {
+    await axios.get('/group/' + groupId + '/locations')
+    .then(response => {
+      if(response.status === 200) {
+        return response.data;
+      } else alert('error retrieving group locations');
+    })
+    .then(data => {
+      setMarkers(data);
+    })
+    .catch(error => {
+      console.log('error retrieving suggestions ' + error);
+    })
+  }
+
+  const retrieveHomeLocations = async () => {
+    await axios.get('/user/homes/' + encodeURIComponent(loggedInUser.userId))
+    .then(response => {
+      if(response.status === 200) {
+        return response.data;
+      } else alert('error retrieving home locations');
+    })
+    .then(data => {
+      setHomeLocations(data);
+    })
+    .catch(error => {
+      console.log('error retrieving home locations ' + error);
+    })
+  }
+
   React.useEffect(() => {
     retrieveGroupData();
+    retrieveHomeLocations();
+    retrieveMarkers();
   }, [groupId]);
 
 	const [markers, setMarkers] = React.useState([]);
@@ -155,7 +187,7 @@ const GroupDashboard = () => {
       <Container maxheight="lg">
       <h1>{group.groupId}</h1>
 		<Box display='flex' justifyContent='center' sx={{pt: 3}}>
-			<Map height='60rem' width='25rem' zoom='11' markers={markers} coords={{lat: 49.1666, lng: 123.1336}}/>
+			<Map height='60rem' width='25rem' zoom='11' markers={markers} coords={{lat: 49.1666, lng: 123.1336}} homes={homeLocations} />
 		</Box>
         <Box sx={{ pt: 3 }}>
           <Grid

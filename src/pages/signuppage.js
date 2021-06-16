@@ -92,10 +92,10 @@ export default function SignUp() {
                 password: values.password,
               }
 
-              axios.post('/users', {user}).then(response => {
-                if(response.status == 200) {
+              axios.post('/users', user).then(response => {
+                if(response.status === 200) {
                   console.log("sign up successful");
-                  localStorage.setItem('user', response.data)
+                  localStorage.setItem('user', JSON.stringify(response.data))
                   navigate('/app/dashboard');
                 }
                 else {
