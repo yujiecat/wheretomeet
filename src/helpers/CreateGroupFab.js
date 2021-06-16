@@ -8,6 +8,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
+import axios from 'axios'
 
 const style = {
     margin: 0,
@@ -22,6 +23,7 @@ export default function CreateGroupFab({onCreate}) {
   const [open, setOpen] = React.useState(false);
   const [groupName, setGroupName] = React.useState('');
   const [groupPassword, setGroupPassword] = React.useState('');
+  const loggedInUser = JSON.parse(localStorage.getItem('user'));
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -33,29 +35,41 @@ export default function CreateGroupFab({onCreate}) {
 
   const handleSubmit = () => {
 
-    const request = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        groupName: groupName,
-        groupPassword: groupPassword,
-      }),
-    };
+    const group = {
+      groupName: groupName,
+      groupPassword: groupPassword,
+      groupOwner: loggedInUser,
+      groupMembers: [loggedInUser]
+    }
 
-    //TODO: redirect straight to group page or smth
-    fetch('/groups', request)
-    .then(response => {
-        if(response.ok){
-          alert("Group created!");
-		  onCreate();
+    axios.post('/groups/', group)
+      .then(response => {
+        if(response.status === 200) {
+          alert('Group created!');
+          handleClose();
+          return response.data;
         }
         else {
-          alert("Error in creating group :(");
-			onCreate();
+          alert('Error creating group :(');
         }
-      console.log('owo');
+    })
+    .then(data => { 
+      axios.put('/groupsList/' + encodeURIComponent(loggedInUser.userId) + '/add/' + data.groupId)
+      .then(response => {
+        if(response.status === 200) {
+          console.log('group added to user\'s group list');
+          onCreate();
+        }
+        else {
+          alert('error saving group details');
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+    })
+    .catch(error => {
+      console.log(error);
     });
 
   }

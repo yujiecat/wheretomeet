@@ -38,7 +38,7 @@ const routes = [
       { path: '/', element: <Navigate to="/app/dashboard" /> },
       { path: '*', element: <Navigate to="/404" /> }
     ]
-  }
+  },
 ];
 
 export default routes;

@@ -9,7 +9,10 @@ import Map from 'src/helpers/Map.js';
 import PlacesAutocomplete from 'src/helpers/AutoComplete.js';
 import MessageList from 'src/helpers/MessageList.js';
 import { getDetails } from 'use-places-autocomplete';
+import { GoogleMap } from '@react-google-maps/api';
+import axios from 'axios';
 import Voting from 'src/helpers/Voting.js';
+import { useParams } from 'react-router-dom';
 
 // temporarily here before api hooks
 
@@ -33,7 +36,33 @@ const GroupDashboard = () => {
 	// grab suggested locations of a group here
 	// also grab user's home locations here
 
-	const [markers, setMarkers] = React.useState([{lat: 10, lng: 10}]);
+  const { groupId } = useParams();
+
+  const [group, setGroup] = React.useState([]);
+
+  const retrieveGroupData = async() => {
+      await axios.get('/group/id/' + groupId)
+      .then(response => {
+        if(response.status === 200) {
+          return response.data;
+        }
+        else {
+          alert('error retrieving group data');
+        }
+      })
+      .then(data => {
+        setGroup(data)
+      })
+      .catch(error => {
+        console.log('error retrieving group data: ' + error);
+      })
+  }
+
+  React.useEffect(() => {
+    retrieveGroupData();
+  }, [groupId]);
+
+	const [markers, setMarkers] = React.useState([]);
 	// eslint-disable-next-line no-unused-vars
 	const [homeLocations, setHomeLocations] = React.useState([]);
 
@@ -86,13 +115,35 @@ const GroupDashboard = () => {
 
     function callback(response, status){
       console.log('what the fuck', response);
+
+      const venue = {
+        venueCoordinates: [val.lat, val.lng],
+        venueName: "place_name",
+        venueAddress: response.destinationAddresses[0],
+        venuePhoneNumner: "911",
+        venueId: "123456789",
+      }
+  
+      if(groupId != null) {
+        axios.put('/group/' + groupId + '/add/location', venue)
+        .then(response => {
+          if(response.status === 200) {
+            console.log('venue pushed to group successfully');
+          }
+          else {
+            alert("network error");
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
+      }
     }
   }
 
-
   return(<>
     <Helmet>
-      <title>GroupNameHere</title>
+      <title>{group.groupName}</title>
     </Helmet>
     <Box
       sx={{
@@ -102,8 +153,9 @@ const GroupDashboard = () => {
       }}
     >
       <Container maxheight="lg">
+      <h1>{group.groupId}</h1>
 		<Box display='flex' justifyContent='center' sx={{pt: 3}}>
-			<Map height='60rem' width='25rem' zoom='11' markers={markers}/>
+			<Map height='60rem' width='25rem' zoom='11' markers={markers} coords={{lat: 49.1666, lng: 123.1336}}/>
 		</Box>
         <Box sx={{ pt: 3 }}>
           <Grid
@@ -127,7 +179,7 @@ const GroupDashboard = () => {
         </Box>
         <Box>
 		  <MessageList />
-      <Voting />
+      <Voting suggestions={markers} />
         </Box>
       </Container>
     </Box>
