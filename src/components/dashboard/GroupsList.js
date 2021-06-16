@@ -12,7 +12,7 @@ import { ChevronRight } from 'react-feather';
 import React from 'react';
 import axios from 'axios';
 import getInitials from 'src/utils/getInitials';
-import { useNavigate, generatePath} from 'react-router-dom';
+import { useNavigate, generatePath } from 'react-router-dom';
 
 const ListItem = withStyles({
   root: {
@@ -46,12 +46,11 @@ const GroupsList = ({ groups }) => {
       alert('retrieved group ' + data.groupName + ' ' + data.groupId);
 
       const groupPath = generatePath(
-        '/app/group/?:groupId', 
+        '/app/group/:groupId', 
         { groupId: gid }
       );
-      
-      navigate(groupPath);
 
+      navigate(groupPath);
     })
     .catch(error => {
       alert('error retrieving group..' + error);

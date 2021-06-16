@@ -27,7 +27,7 @@ const home = [
 
 
 function Map(props) {
-	const {height, width, zoom, markers, info} = props;
+	const {height, width, zoom, markers, coords, info, homes} = props;
 
 	//grab home locations + suggestions here for markers + distance
 		const containerStyle = {
@@ -35,11 +35,10 @@ function Map(props) {
 		height: width
 	};
 
-	const hasSuggestions = (markers.length > 0)
-
+	const hasSuggestions = (markers.length > 0);
+	const hasHomes = (homes.length > 0);
 
 	// loads map
-	const coords = { lat: 49.233741, lng: -123.124675 }
 	const { isLoaded } = useJsApiLoader({
 		id: 'google-map-script',
 		googleMapsApiKey: "AIzaSyA5N_RMyoxca6XTwqQt6QBRFSXO91t_jgw"
@@ -68,13 +67,13 @@ function Map(props) {
 			onLoad = { onLoad }
 			onUnmount = { onUnmount }
 		>
-		{home.map((h) => {
+		{hasHomes ? home.map((h) => {
 			return(<Marker
 				title = {'duck'}
 				clickable = {true}
 				key = {h.name}
 				position = {h.coords[0]}
-				icon = {'https://upload.wikimedia.org/wikipedia/commons/3/34/Home-icon.svg'}></Marker>)})}
+				icon = {'https://upload.wikimedia.org/wikipedia/commons/3/34/Home-icon.svg'}></Marker>)}) : <></>}
 		
 
 		{hasSuggestions ? 

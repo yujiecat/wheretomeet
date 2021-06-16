@@ -24,14 +24,15 @@ const Voting = ({suggestions}) => {
     console.log(votesCocoru);
   }
 
+  const hasSuggestions = (suggestions.length > 0);
+
   return (
     <Box display="grid">
       <Typography component="span" classes={subtitleStyles}>
         Vote for which suggested places you'd like to go to!
       </Typography>
       <FormGroup>
-      {suggestions.map((suggestion) => {
-        console.log('what', suggestion);
+      {hasSuggestions ? suggestions.map((suggestion) => {
         return(
           <FormControlLabel
           key={suggestion.info.name}
@@ -46,7 +47,7 @@ const Voting = ({suggestions}) => {
               </Typography>
             </>
           }/>
-        )})}
+        )}) : <></>}
         </FormGroup>
     </Box>
   );
