@@ -37,6 +37,8 @@ const GroupDashboard = ({message, chat, ids}) => {
 
   const { groupId } = useParams();
   const [group, setGroup] = React.useState([]);
+  const loggedInUser = JSON.parse(localStorage.getItem('user'));
+
 
   const retrieveGroupData = async() => {
       await axios.get('/group/id/' + groupId)
@@ -72,7 +74,7 @@ const GroupDashboard = ({message, chat, ids}) => {
   }
 
   const retrieveHomeLocations = async () => {
-    await axios.get('/user/home/' + groupId)
+    await axios.get('/user/homes/' + encodeURIComponent(loggedInUser.userId))
     .then(response => {
       if(response.status === 200) {
         return response.data;
