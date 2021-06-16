@@ -13,14 +13,15 @@ export default function MessageList({groupId}) {
 
     console.log('messages from: ', groupId);
 
-    if(!stompClient.connected) {
-      stompClient.connect({}, () => {
+    //TODO: fix b/c not calling on page load for some reason?
+    stompClient.onConnect = function(frame) {
         console.log('Connected to chat server.');
         stompClient.subscribe('/topic/messages/' + groupId, (message) => {
           console.log(message.body);
         });
-      });
     }
+
+    stompClient.activate();
   
   // console.log('grabbed messages: ', chatMessage);
   // console.log('ids: ', messageIds)
