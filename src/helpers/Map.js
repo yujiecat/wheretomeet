@@ -26,7 +26,7 @@ const home = [
 // }
 
 
-function Map(props) {
+function Maps(props) {
 	const {height, width, zoom, markers, coords, info, homes} = props;
 
 	//grab home locations + suggestions here for markers + distance
@@ -35,8 +35,8 @@ function Map(props) {
 		height: width
 	};
 
-	const hasSuggestions = (markers.length > 0);
-	const hasHomes = (homes.length > 0);
+	const suggestions = Array.from(markers);
+	const home = Array.from(homes);
 
 	// loads map
 	const { isLoaded } = useJsApiLoader({
@@ -67,20 +67,19 @@ function Map(props) {
 			onLoad = { onLoad }
 			onUnmount = { onUnmount }
 		>
-		{hasHomes ? home.map((h) => {
+		{home.map((h) => {
 			return(<Marker
 				title = {'duck'}
 				clickable = {true}
-				key = {h.name}
-				position = {h.coords[0]}
-				icon = {'https://upload.wikimedia.org/wikipedia/commons/3/34/Home-icon.svg'}></Marker>)}) : <></>}
+				key = {h[0]}
+				position = {h[1]}
+				icon = {'https://upload.wikimedia.org/wikipedia/commons/3/34/Home-icon.svg'}></Marker>)})}
 		
-
-		{hasSuggestions ? 
-			markers.map((m) => {
-				return(<MarkerEmbed key={m.lat} m={m} info={info}/>)}) : <></>}
+			{suggestions.map((suggestion) => {
+				console.log('val: ', suggestion);
+				return(<MarkerEmbed key={suggestion[0]} m={suggestion[1]}/>)})}
 		</GoogleMap>
 	) : <></>
 }
 
-export default React.memo(Map);
+export default React.memo(Maps);

@@ -5,7 +5,7 @@ import {
   Container,
   Grid,
 } from '@material-ui/core';
-import Map from 'src/helpers/Map.js';
+import Maps from 'src/helpers/Map.js';
 import PlacesAutocomplete from 'src/helpers/AutoComplete.js';
 import MessageList from 'src/helpers/MessageList.js';
 import { getDetails } from 'use-places-autocomplete';
@@ -38,7 +38,9 @@ const GroupDashboard = () => {
   const { groupId } = useParams();
   const [group, setGroup] = React.useState([]);
   const loggedInUser = JSON.parse(localStorage.getItem('user'));
-
+	const [markers, setMarkers] = React.useState([]);
+	// eslint-disable-next-line no-unused-vars
+	const [homeLocations, setHomeLocations] = React.useState([]);
 
   const retrieveGroupData = async() => {
       await axios.get('/group/id/' + groupId)
@@ -66,7 +68,8 @@ const GroupDashboard = () => {
       } else alert('error retrieving group locations');
     })
     .then(data => {
-      setMarkers(data);
+      const map = new Map(Object.entries(data));
+      setMarkers(map);
     })
     .catch(error => {
       console.log('error retrieving suggestions ' + error);
@@ -81,7 +84,8 @@ const GroupDashboard = () => {
       } else alert('error retrieving home locations');
     })
     .then(data => {
-      setHomeLocations(data);
+      const map = new Map(Object.entries(data));
+      setHomeLocations(map);
     })
     .catch(error => {
       console.log('error retrieving home locations ' + error);
@@ -94,14 +98,9 @@ const GroupDashboard = () => {
     retrieveMarkers();
   }, [groupId]);
 
-	const [markers, setMarkers] = React.useState([]);
-	// eslint-disable-next-line no-unused-vars
-	const [homeLocations, setHomeLocations] = React.useState([]);
-
-  
   //handles new markers on map - delete console.logs after
 
-	const handleMarkers = (markers, val, place) => {
+	const handleMarkers = async (markers, val, place) => {
 
     console.log('hey', place[0]);
     // grabs info about a location
@@ -118,25 +117,27 @@ const GroupDashboard = () => {
     getDetails(parameter)
     .then((details) => {
       inf = details;
-      const mark = {
-        lat: val.lat,
-        lng: val.lng,
-        info: inf,
+      const venue = {
+        venueCoordinates: [val.lat, val.lng],
+        venueName: 'abc',
+        venueAddress: '',
+        venuePhoneNumer: "911",
+        venueId: place[0].place_id,
       }
-		setMarkers(markers => [...markers, mark]);
+  
+    markers.set(place[0].place_id, venue);
     })
     .catch((error) =>{
         console.log('error: ', error);
     })
-
-
-		console.log('markers', markers);
 	}
 
-  const handleDistance = (val) => {
+  const handleDistance = (val, place) => {
 
     // save this information somewhere in db
     // can either pass to infowindow or have separate "travel time" section
+
+    console.log('place: ', place);
 
     var service = new window.google.maps.DistanceMatrixService();
     service.getDistanceMatrix({
@@ -150,10 +151,10 @@ const GroupDashboard = () => {
 
       const venue = {
         venueCoordinates: [val.lat, val.lng],
-        venueName: "place_name",
+        venueName: 'abc',
         venueAddress: response.destinationAddresses[0],
-        venuePhoneNumner: "911",
-        venueId: "123456789",
+        venuePhoneNumer: "911",
+        venueId: place[0].place_id,
       }
   
       if(groupId != null) {
@@ -187,7 +188,7 @@ const GroupDashboard = () => {
       <Container maxheight="lg">
       <h1>{group.groupId}</h1>
 		<Box display='flex' justifyContent='center' sx={{pt: 3}}>
-			<Map height='60rem' width='25rem' zoom='11' markers={markers} coords={{lat: 49.1666, lng: 123.1336}} homes={homeLocations} />
+			<Maps height='60rem' width='25rem' zoom='11' markers={markers} coords={{lat: 49.1666, lng: -123.1336}} homes={homeLocations} />
 		</Box>
         <Box sx={{ pt: 3 }}>
           <Grid
@@ -207,7 +208,7 @@ const GroupDashboard = () => {
             pt: 3
           }}
         >
-			<PlacesAutocomplete onSelect = {(val, place) => {handleMarkers(markers, val, place); handleDistance(val); console.log("??", place)}} />
+			<PlacesAutocomplete onSelect = {(val, place) => {handleMarkers(markers, val, place); handleDistance(val, place);}} />
         </Box>
         <Box>
 		  <MessageList groupId = {groupId} />
