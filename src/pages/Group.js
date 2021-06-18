@@ -5,12 +5,12 @@ import {
   Container,
   Grid,
 } from '@material-ui/core';
-import Map from 'src/helpers/Map.js';
-import PlacesAutocomplete from 'src/helpers/AutoComplete.js';
-import MessageList from 'src/helpers/MessageList.js';
+import Map from 'src/components/GoogleMaps/Map.js';
+import PlacesAutocomplete from 'src/components/GoogleMaps/AutoComplete.js';
+import MessageList from 'src/components/messaging/MessageList.js';
 import { getDetails } from 'use-places-autocomplete';
 import axios from 'axios';
-import Voting from 'src/helpers/Voting.js';
+import Voting from 'src/components/groups/Voting.js';
 import { useParams } from 'react-router-dom';
 
 // temporarily here before api hooks
@@ -37,7 +37,7 @@ const GroupDashboard = () => {
 
   const { groupId } = useParams();
   const [group, setGroup] = React.useState([]);
-  const loggedInUser = JSON.parse(localStorage.getItem('user'));
+  const loggedInUser = sessionStorage.getItem('encodedUserId');
 
 
   const retrieveGroupData = async() => {
@@ -74,7 +74,7 @@ const GroupDashboard = () => {
   }
 
   const retrieveHomeLocations = async () => {
-    await axios.get('/user/homes/' + encodeURIComponent(loggedInUser.userId))
+    await axios.get('/user/homes/' + loggedInUser)
     .then(response => {
       if(response.status === 200) {
         return response.data;

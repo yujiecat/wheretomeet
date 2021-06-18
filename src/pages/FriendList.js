@@ -9,11 +9,11 @@ const FriendList = () => {
 
   const[state, setState] = React.useState(false);
   const [friends, setFriends] = React.useState([]);
-  const loggedInUser = JSON.parse(localStorage.getItem('user'));
+  const loggedInUser = sessionStorage.getItem('encodedUserId');
 
   const retrieveFriendsListData = async() => {
     if(loggedInUser != null) {
-      await axios.get('/friends/' + encodeURIComponent(loggedInUser.userId))
+      await axios.get('/friends/' + loggedInUser)
       .then(response => {
           if(response.status === 200) {
             return response.data;

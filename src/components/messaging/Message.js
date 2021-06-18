@@ -23,7 +23,7 @@
 import React from 'react';
 import moment from 'moment';
 import DOMPurify from 'dompurify';
-import './Message.css';
+import 'src/styles/Message.css';
 
 export default function Message(props) {
     const {

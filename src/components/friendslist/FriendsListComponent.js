@@ -9,7 +9,7 @@ import {
   TableRow,
   Typography,
 } from '@material-ui/core';
-import FriendOptions from 'src/helpers/FriendOptions.js';
+import FriendOptions from 'src/components/friendslist/FriendOptions.js';
 
 function FriendsListComponent({friends, refreshFriends}) { 
 
@@ -41,7 +41,7 @@ function FriendsListComponent({friends, refreshFriends}) {
               {/* Options Button*/}
               <TableCell align='right'>
                 <Box>
-                  <FriendOptions userId = {friend.userId} refreshFriends = {refreshFriends} />
+                  <FriendOptions friendsUserId = {friend.userId} refreshFriends = {refreshFriends} />
                 </Box>
               </TableCell>
 

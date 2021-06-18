@@ -6,24 +6,13 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import Fab from '@material-ui/core/Fab';
-import AddIcon from '@material-ui/icons/Add';
 import axios from 'axios'
 
-const style = {
-    margin: 0,
-    top: 'auto',
-    right: 'auto',
-    bottom: 20,
-    left: 54	,
-    position: 'fixed',
-};
-
-export default function CreateGroupFab({onCreate}) {
+export default function CreateGroup() {
   const [open, setOpen] = React.useState(false);
   const [groupName, setGroupName] = React.useState('');
   const [groupPassword, setGroupPassword] = React.useState('');
-  const loggedInUser = JSON.parse(localStorage.getItem('user'));
+  const loggedInUser = sessionStorage.getItem('encodedUserId');
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -33,16 +22,17 @@ export default function CreateGroupFab({onCreate}) {
     setOpen(false);
   };
 
+  //TODO: 
+  // 1. populate group's list
+  // 2. redirect to group page..?
   const handleSubmit = () => {
 
     const group = {
       groupName: groupName,
       groupPassword: groupPassword,
-      groupOwner: loggedInUser,
-      groupMembers: [loggedInUser]
-    }
+    };
 
-    axios.post('/groups/', group)
+    axios.post('/groups/create/' + loggedInUser, group)
       .then(response => {
         if(response.status === 200) {
           alert('Group created!');
@@ -54,11 +44,10 @@ export default function CreateGroupFab({onCreate}) {
         }
     })
     .then(data => { 
-      axios.put('/groupsList/' + encodeURIComponent(loggedInUser.userId) + '/add/' + data.groupId)
+      axios.put('/groupsList/' + sessionStorage.getItem('encodedUserId') + '/add/' + data.groupId)
       .then(response => {
         if(response.status === 200) {
           console.log('group added to user\'s group list');
-          onCreate();
         }
         else {
           alert('error saving group details');
@@ -71,13 +60,13 @@ export default function CreateGroupFab({onCreate}) {
     .catch(error => {
       console.log(error);
     });
-
   }
+
   return (
     <div>
-      <Fab variant="extended" color="primary" onClick={handleClickOpen} style={style}>
-        <AddIcon />  Create Group
-      </Fab>
+      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+        Create Group
+      </Button>
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Create A New Group</DialogTitle>
         <DialogContent>

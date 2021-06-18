@@ -15,10 +15,10 @@ import React from 'react';
 const Account = () => {
 
   const [homeLocations, setHomeLocations] = React.useState([]);
-  const loggedinUser = JSON.parse(localStorage.getItem('user'));
+  const loggedinUser = sessionStorage.getItem('encodedUserId');
 
   const retrieveHomeLocations = async () => {
-    await axios.get('/user/homes/' + encodeURIComponent(loggedinUser.userId))
+    await axios.get('/user/homes/' + loggedinUser)
     .then(response => {
       if(response.status === 200) {
         return response.data;

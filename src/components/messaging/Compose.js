@@ -17,11 +17,11 @@ export default function Compose({groupId}) {
     const compose = useStyles();
     const [text, setText] = React.useState('')
 
-    const loggedInUser = JSON.parse(localStorage.getItem('user'));
+    const loggedInUser = sessionStorage.getItem('encodedUserId');
 
     const sendChatMessage = (newMessage) => {
       const messageObj = {
-        userId: loggedInUser.userId, 
+        userId: loggedInUser,
         message: newMessage, 
       };
     

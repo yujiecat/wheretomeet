@@ -1,5 +1,5 @@
 import { Navigate } from 'react-router-dom';
-import DashboardLayout from 'src/components/DashboardLayout';
+import DashboardLayout from 'src/components/dashboard/DashboardLayout';
 import MainLayout from 'src/components/MainLayout';
 import Account from 'src/pages/Account';
 import FriendList from 'src/pages/FriendList';
@@ -17,7 +17,6 @@ const routes = () => [
     path: 'app',
     element: <DashboardLayout />,
     children: [
-      // { path: 'group', element: <Group message={sendMessage} chat={chatMessages} ids={messageIds}/>},
       { path: 'group', element: <Group/>},
       { path: 'account', element: <Account /> },
       { path: 'customers', element: <FriendList /> },
