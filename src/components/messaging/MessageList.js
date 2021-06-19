@@ -2,29 +2,12 @@ import React, {useEffect, useState} from 'react';
 import Message from './Message';
 import moment from 'moment';
 import Compose from './Compose.js';
-import stompClient from 'src/helpers/StompClient.js';
-import { useParams } from 'react-router';
 
 // used to determine who sent message
 const MY_USER_ID = 'apple';
 
 export default function MessageList({groupId}) {
   const [messages, setMessages] = useState([])
-
-    console.log('messages from: ', groupId);
-
-    //TODO: fix b/c not calling on page load for some reason?
-    stompClient.onConnect = function(frame) {
-        console.log('Connected to chat server.');
-        stompClient.subscribe('/topic/messages/' + groupId, (message) => {
-          console.log(message.body);
-        });
-    }
-
-    stompClient.activate();
-  
-  // console.log('grabbed messages: ', chatMessage);
-  // console.log('ids: ', messageIds)
 
   useEffect(() => {
     getMessages();

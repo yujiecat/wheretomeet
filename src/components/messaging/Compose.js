@@ -18,7 +18,7 @@ export default function Compose({groupId}) {
     const [text, setText] = React.useState('')
 
     const loggedInUser = sessionStorage.getItem('encodedUserId');
-
+    
     const sendChatMessage = (newMessage) => {
       const messageObj = {
         userId: loggedInUser,

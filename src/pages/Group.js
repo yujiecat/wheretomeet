@@ -12,6 +12,7 @@ import { getDetails } from 'use-places-autocomplete';
 import axios from 'axios';
 import Voting from 'src/components/groups/Voting.js';
 import { useParams } from 'react-router-dom';
+import stompClient from 'src/helpers/StompClient.js';
 
 // temporarily here before api hooks
 
@@ -39,6 +40,11 @@ const GroupDashboard = () => {
   const [group, setGroup] = React.useState([]);
   const loggedInUser = sessionStorage.getItem('encodedUserId');
 
+  if(stompClient.connected) {
+    stompClient.subscribe('/topic/messages/' + groupId, (message) => {
+      console.log(message.body);
+    });
+  }
 
   const retrieveGroupData = async() => {
       await axios.get('/group/id/' + groupId)
@@ -88,11 +94,11 @@ const GroupDashboard = () => {
     })
   }
 
-  React.useEffect(() => {
-    retrieveGroupData();
-    retrieveHomeLocations();
-    retrieveMarkers();
-  }, [groupId]);
+  // React.useEffect(() => {
+  //   retrieveGroupData();
+  //   retrieveHomeLocations();
+  //   retrieveMarkers();
+  // }, [groupId]);
 
 	const [markers, setMarkers] = React.useState([]);
 	// eslint-disable-next-line no-unused-vars
