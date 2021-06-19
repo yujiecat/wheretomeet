@@ -7,7 +7,7 @@ import {
   SvgIcon
 } from '@material-ui/core';
 import { Search as SearchIcon } from 'react-feather';
-import AddFriend from 'src/helpers/AddFriend.js';
+import AddFriend from 'src/components/friendslist/AddFriend.js';
 
 const FriendsListToolbar = ({refreshFriends}) => {
 

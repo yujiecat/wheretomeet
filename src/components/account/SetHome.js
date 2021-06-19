@@ -14,8 +14,8 @@ import {
 } from '@material-ui/core';
 import ClearIcon from '@material-ui/icons/Clear';
 import { TextField } from '@material-ui/core';
-import Map from 'src/helpers/Map.js';
-import PlacesAutocomplete from 'src/helpers/AutoComplete.js';
+import Map from 'src/components/GoogleMaps/Map.js';
+import PlacesAutocomplete from 'src/components/GoogleMaps/AutoComplete.js';
 import axios from 'axios';
 
 const testHomes = [
@@ -29,7 +29,7 @@ const testHomes = [
 const AccountProfileDetails = ({homes, setHome}) => {
   const [markers, setMarkers] = useState(testHomes);
   const [name, setName] = useState('');
-  const loggedInUser = JSON.parse(localStorage.getItem('user'));
+  const loggedInUser = sessionStorage.getItem('encodedUserId');
 
     const handleChange = (event) => {
     setName(event.value);
@@ -46,7 +46,7 @@ const AccountProfileDetails = ({homes, setHome}) => {
     }
 
     if(markers.length < 3){
-      axios.put('/user/' + encodeURIComponent(loggedInUser.userId) + '/add/homes', newHome)
+      axios.put('/user/' + loggedInUser + '/add/homes', newHome)
         .then(response => {
           if(response.status === 200) {
             console.log('home added successfully');
@@ -67,13 +67,12 @@ const AccountProfileDetails = ({homes, setHome}) => {
 
   const deleteHome = () => {
     if(loggedInUser != null) {
-      const user = encodeURIComponent(loggedInUser.userId);
       const home = {
         homeName: 'Elmo\'s',
         homeCoordinates: [49, 123.124675],
         homeAddress: '123 Sesame Street',
       };
-      const deleteHomeUri = '/user/' + user + '/delete/homes/';
+      const deleteHomeUri = '/user/' + loggedInUser + '/delete/homes/';
 
       axios.put(deleteHomeUri, home)
       .then(response => {

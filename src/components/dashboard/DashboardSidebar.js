@@ -14,9 +14,9 @@ import {
   Users as FriendsIcon,
   MessageSquare as GroupsIcon
 } from 'react-feather';
-import NavItem from './NavItem';
-import GroupsList from './dashboard/GroupsList';
-import CreateGroupFab from './../helpers/CreateGroupFab.js';
+import NavItem from 'src/components/NavItem';
+import GroupsList from 'src/components/dashboard/GroupsList';
+import CreateGroupFab from 'src/components/dashboard/CreateGroupFab.js';
 import React, { useState } from 'react';
 import axios from 'axios';
 
@@ -53,7 +53,8 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
   const location = useLocation();
   const [rerender, setRerender] = useState(false);
   const [groups, setGroups] = useState([]);
-  const loggedInUser = JSON.parse(localStorage.getItem('user'));
+
+  const loggedInUser = sessionStorage.getItem('encodedUserId');
 
   const updateGroups = () => {
     setRerender(!rerender);
@@ -62,7 +63,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
 
     const retrieveUsersGroupsData = async() => {
     if(loggedInUser != null) {
-      await axios.get('/groupsList/' + encodeURIComponent(loggedInUser.userId))
+      await axios.get('/groupsList/' + loggedInUser)
       .then(response => {
           if(response.status === 200) {
             return response.data;
