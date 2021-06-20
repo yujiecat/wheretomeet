@@ -92,16 +92,24 @@ export default function SignUp() {
                 password: values.password,
               }
 
-              axios.post('/users', user).then(response => {
+              axios.post('/users', user)
+              .then(response => {
                 if(response.status === 200) {
                   console.log("sign up successful");
-                  localStorage.setItem('user', JSON.stringify(response.data))
-                  navigate('/app/dashboard');
+                  return response.data;
                 }
                 else {
                   alert('error in creating user');
                 }
-              }).catch(error => {
+              })
+              .then(data => {
+                sessionStorage.setItem('username', data.username);
+                sessionStorage.setItem('userEmail', data.email);
+                sessionStorage.setItem('userId', data.userId);
+                sessionStorage.setItem('encodedUserId', encodeURIComponent(data.userId));
+                navigate('/app/dashboard');
+              })
+              .catch(error => {
                 console.log(error);
               });
             }}

@@ -9,10 +9,10 @@ import {
     ListItem,
 } from '@material-ui/core';
 
-export default function FriendOptions({userId, refreshFriends}) {
+export default function FriendOptions({friendsUserId, refreshFriends}) {
 
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const loggedInUser = JSON.parse(localStorage.getItem('user'));
+  const loggedInUser= sessionStorage.getItem('encodedUserId');
 
   // Clicking on the 3 dots
   const handleClick = (event) => {
@@ -31,24 +31,18 @@ export default function FriendOptions({userId, refreshFriends}) {
     //TODO: 
     // 1. Populate FL with 'pending status' until friend responds (accept/decline)
     if(loggedInUser != null) {
-      const user = encodeURIComponent(loggedInUser.userId);
-      const friend = encodeURIComponent(userId);
+      const friend = encodeURIComponent(friendsUserId);
 
-      const friendRequest = {
-        userId: user,
-        friendId: friend,
-      };
+      const friendRequestUri = '/friends/' + loggedInUser + '/remove/' + friend;
 
-      const friendRequestUri = '/friends/' + user + '/remove/' + friend;
-
-      axios.put(friendRequestUri , {friendRequest})
+      axios.put(friendRequestUri)
       .then(response => {
         if(response.status === 200) {
           alert("Friend removed");
           refreshFriends();
         } 
         else {
-          alert("Cannot find user with id:" + userId);
+          alert("Cannot find user with id:" + friendsUserId);
         }
       })
       .catch(error => {

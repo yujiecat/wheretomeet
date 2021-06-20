@@ -71,7 +71,10 @@ export default function SignIn() {
     })
     .then(data => {
       if(data.email === email && data.password === password) {
-        localStorage.setItem('user', JSON.stringify(data));
+        sessionStorage.setItem('username', data.username);
+        sessionStorage.setItem('userEmail', data.email);
+        sessionStorage.setItem('userId', data.userId);
+        sessionStorage.setItem('encodedUserId', encodeURIComponent(data.userId));
         navigate('/app/dashboard');
       }
       else {

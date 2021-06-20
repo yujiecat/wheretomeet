@@ -11,7 +11,7 @@ export default function AddFriend({refreshFriends}) {
 
   const [open, setOpen] = React.useState(false);
   const [friendId, setFriendId] = React.useState('');
-  const loggedInUser = JSON.parse(localStorage.getItem('user'));
+  const loggedInUser = sessionStorage.getItem('encodedUserId');
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -25,15 +25,14 @@ export default function AddFriend({refreshFriends}) {
     //TODO: 
     // 1. Populate FL with 'pending status' until friend responds (accept/decline)
     if(loggedInUser != null) {
-      const user = encodeURIComponent(loggedInUser.userId);
       const friend = encodeURIComponent(friendId);
 
       const friendRequest = {
-        userId: user,
+        userId: loggedInUser,
         friendId: friend,
       };
 
-      const friendRequestUri = '/friends/' + user + '/add/' + friend;
+      const friendRequestUri = '/friends/' + loggedInUser + '/add/' + friend;
 
       axios.put(friendRequestUri , {friendRequest})
       .then(response => {

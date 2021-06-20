@@ -11,7 +11,7 @@ import MuiListItem from '@material-ui/core/ListItem';
 import { ChevronRight } from 'react-feather';
 import React from 'react';
 import axios from 'axios';
-import getInitials from 'src/utils/getInitials';
+import getInitials from 'src/helpers/getInitials';
 import { useNavigate, generatePath } from 'react-router-dom';
 
 const ListItem = withStyles({
