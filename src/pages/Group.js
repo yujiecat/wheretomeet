@@ -5,7 +5,7 @@ import {
   Container,
   Grid,
 } from '@material-ui/core';
-import Map from 'src/components/GoogleMaps/Map.js';
+import Maps from 'src/components/GoogleMaps/Map.js';
 import PlacesAutocomplete from 'src/components/GoogleMaps/AutoComplete.js';
 import MessageList from 'src/components/messaging/MessageList.js';
 import { getDetails } from 'use-places-autocomplete';
