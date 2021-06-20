@@ -1,18 +1,19 @@
 import {
   Card,
-  // CardContent,
+  CardHeader,
+  Divider,
   Grid,
-  Typography,
+  List,
+  ListItem,
+  ListItemText,
   Container,
 } from '@material-ui/core';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import React from 'react';
-import moment from 'moment';
-import { TimePicker } from 'antd';
 import 'antd/dist/antd.css';
 import { differenceInCalendarDays } from 'date-fns';
-import { makeStyles } from '@material-ui/core/styles';
+import axios from 'axios';
 
 function isSameDay(a, b) {
   return differenceInCalendarDays(a, b) === 0;
@@ -20,22 +21,49 @@ function isSameDay(a, b) {
 
 const datesToAddClassTo = [new Date()];
 
-const event = makeStyles((theme) => ({
-
-  
-
-}));
-
 function tileClassName({ date, view }) {
   // Add class to tiles in month view only
   if (view === 'month') {
     // Check if a date React-Calendar wants to check is on the list of dates to add class to
-    if (datesToAddClassTo.find(dDate => isSameDay(dDate, new Date()))) {
-      return event;
+    if (datesToAddClassTo.find(dDate => isSameDay(dDate, date))) {
+      return 'event'
     }
   }
 }
 const Meetups = (props) => {
+
+  const [date, setDate] = React.useState('No date selected.');
+  const [events, setEvents] = React.useState(new Map());
+  const [dayEvent, setDayEvent] = React.useState([]);
+  const loggedInUser = sessionStorage.getItem('encodedUserId');
+
+  const handleClickDay = (date) =>{
+    setDate(date.toDateString());
+    setDayEvent([]);
+  }
+
+  const hasEvents = dayEvent.length > 0;
+
+  // TODO: grab all event times here.
+
+  const grabEvents = async () => {
+    // await axios.get('/user/events/' + encodeURIComponent(loggedInUser.userId))
+    // .then(response => {
+    //   if(response.status === 200) {
+    //     return response.data;
+    //   } else alert('error retrieving events');
+    // })
+    // .then(data => {
+    //   console.log(data);
+    // })
+    // .catch(error => {
+    //   console.log('error retrieving events: ' + error);
+    // })
+  }
+
+  React.useEffect(() => {
+    grabEvents();
+  }, []);
 
   return (<Card 
     sx={{
@@ -55,7 +83,25 @@ const Meetups = (props) => {
           <Calendar
             calendarType="US"
             tileClassName={tileClassName}
+            onClickDay={handleClickDay}
           />
+          <Card>
+            <CardHeader
+              sx={{
+                p: 2
+              }}
+              subheader={date}
+              title="Events">
+            </CardHeader>
+            <Divider />
+            <List>
+              {hasEvents ? dayEvent.map((e) => {
+                return(<ListItem button>
+                  <ListItemText primary={e.groupname} />
+                </ListItem>)
+              }) : 'No events planned.'}
+            </List>
+          </Card>
       </Grid>
      </Container>
   </Card>

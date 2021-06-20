@@ -81,6 +81,11 @@ ul {
 a {
   text-decoration: none;
 }
+
+.event {
+  color: pink;
+}
+
 h1,
 h2,
 h3,
