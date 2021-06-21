@@ -19,7 +19,6 @@ import GroupsList from 'src/components/dashboard/GroupsList';
 import CreateGroupFab from 'src/components/dashboard/CreateGroupFab.js';
 import React, { useState } from 'react';
 import axios from 'axios';
-import stompClient from 'src/helpers/StompClient';
 
 const user = {
   avatar: '/static/images/avatars/avatar_6.png',

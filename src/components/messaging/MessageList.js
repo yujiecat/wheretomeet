@@ -97,7 +97,7 @@ export default function MessageList({groupId}) {
       <div className="message-list">
         <div className="message-list-container">{renderMessages()}</div>
 		{/* <Compose message={message}/> */}
-    <Compose groupId = {groupId}/>
+    {/* <Compose groupId = {groupId}/> */}
       </div>
     );
 }

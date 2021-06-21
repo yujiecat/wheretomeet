@@ -11,8 +11,9 @@ import MessageList from 'src/components/messaging/MessageList.js';
 import { getDetails } from 'use-places-autocomplete';
 import axios from 'axios';
 import Voting from 'src/components/groups/Voting.js';
+import Compose from 'src/components/messaging/Compose.js';
 import { useParams } from 'react-router-dom';
-import stompClient from 'src/helpers/StompClient.js';
+import stompSocket from 'src/helpers/StompSocket.js';
 
 // temporarily here before api hooks
 
@@ -40,12 +41,8 @@ const GroupDashboard = () => {
   const [group, setGroup] = React.useState([]);
   const loggedInUser = sessionStorage.getItem('encodedUserId');
 
-  if(stompClient.connected) {
-    stompClient.subscribe('/topic/messages/' + groupId, (message) => {
-      console.log(message.body);
-    });
-  }
-
+  stompSocket.connect(groupId);
+  
   const retrieveGroupData = async() => {
       await axios.get('/group/id/' + groupId)
       .then(response => {
@@ -94,6 +91,8 @@ const GroupDashboard = () => {
     })
   }
 
+  //commented out because it causes 3 re-renders on load...
+  
   // React.useEffect(() => {
   //   retrieveGroupData();
   //   retrieveHomeLocations();
@@ -217,7 +216,9 @@ const GroupDashboard = () => {
         </Box>
         <Box>
 		  <MessageList groupId = {groupId} />
+      <Compose/>
       <Voting suggestions={markers} />
+
         </Box>
       </Container>
     </Box>
