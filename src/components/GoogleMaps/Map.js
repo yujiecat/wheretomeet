@@ -35,6 +35,8 @@ function Maps(props) {
 		height: width
 	};
 
+	const hasHomes = homes.length > 0;
+
 	const suggestions = Array.from(markers);
 	const home = Array.from(homes);
 
@@ -67,13 +69,14 @@ function Maps(props) {
 			onLoad = { onLoad }
 			onUnmount = { onUnmount }
 		>
-		{home.map((h) => {
+		{hasHomes ? home.map((h) => {
+			console.log(h)
 			return(<Marker
 				title = {'duck'}
 				clickable = {true}
-				key = {h[0]}
-				position = {h[1]}
-				icon = {'https://upload.wikimedia.org/wikipedia/commons/3/34/Home-icon.svg'}></Marker>)})}
+				key = {h.homeName}
+				position = {{lat: h.homeCoordinates[0], lng: h.homeCoordinates[1]}}
+				icon = {'https://upload.wikimedia.org/wikipedia/commons/3/34/Home-icon.svg'}></Marker>)}) : <></>}
 		
 			{suggestions.map((suggestion) => {
 				console.log('val: ', suggestion);

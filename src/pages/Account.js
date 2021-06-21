@@ -9,7 +9,6 @@ import SettingsPassword from 'src/components/settings/SettingsPassword';
 import AccountProfileDetails from 'src/components/account/AccountProfileDetails';
 import SetHome from 'src/components/account/SetHome';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
 import React from 'react';
 
 const Account = () => {
@@ -25,6 +24,7 @@ const Account = () => {
       } else alert('error retrieving home locations');
     })
     .then(data => {
+      console.log(data);
       setHomeLocations(data);
     })
     .catch(error => {

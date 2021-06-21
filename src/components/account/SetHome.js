@@ -18,42 +18,38 @@ import Map from 'src/components/GoogleMaps/Map.js';
 import PlacesAutocomplete from 'src/components/GoogleMaps/AutoComplete.js';
 import axios from 'axios';
 
-const testHomes = [
-  {
-    homeCoordinates: [49, 123.124675],
-    homeName: 'ily',
-    homeAddress: '',
-  },
-];
-
 const AccountProfileDetails = ({homes, setHome}) => {
-  const [markers, setMarkers] = useState(testHomes);
+  const [markers, setMarkers] = useState(homes);
   const [name, setName] = useState('');
   const loggedInUser = sessionStorage.getItem('encodedUserId');
 
-    const handleChange = (event) => {
-    setName(event.value);
+  const handleChange = (event) => {
+      setName(event.value);
   };
 
-  const hasHomes = markers.length > 0;
+  React.useEffect(() => {
+    setMarkers(homes);
+  }, [homes])
 
- 	const addHome = (markers, val) => {
-
+ 	const addHome = (markers, val, results) => {
+    console.log(name);
     const newHome = {
-      homeName: 'Elmo\'s',
-      homeCoordinates: [49, 123.124675],
-      homeAddress: '123 Sesame Street',
+      homeName: name,
+      homeCoordinates: [val.lat, val.lng],
+      homeAddress: results[0].formatted_address,
     }
+
+    console.log(newHome)
 
     if(markers.length < 3){
       axios.put('/user/' + loggedInUser + '/add/homes', newHome)
         .then(response => {
           if(response.status === 200) {
             console.log('home added successfully');
-            setMarkers(markers => [...markers, val]);
+            setMarkers(markers => [...markers, newHome]);
           }
           else {
-            alert("network error");
+            alert("network error"); 
           }
         })
         .catch(error => {
@@ -62,7 +58,6 @@ const AccountProfileDetails = ({homes, setHome}) => {
     }
     else alert('You have the max number of home locations. Please remove one first before adding another! (Click on the marker and delete it!)')
 		console.log('markers', markers);
-
 	}
 
   const deleteHome = () => {
@@ -114,13 +109,13 @@ const AccountProfileDetails = ({homes, setHome}) => {
         </TableRow>
       </TableHead>
       <TableBody>
-        {hasHomes ? markers.map((m) => {
+        {markers.map((m) => {
           return(
           <TableRow key={m.coords}>
               {/* list of home locations */}
               <TableCell>
                 <Box>
-                  <Typography fontSize={24} color='black' ml={7.30} mt={-5.55}>{m.name}</Typography>
+                  <Typography fontSize={24} color='black' ml={2} >{m.homeName}</Typography>
                 </Box>
               </TableCell>
 
@@ -134,7 +129,7 @@ const AccountProfileDetails = ({homes, setHome}) => {
               </TableCell>
 
           </TableRow>
-        )}): <></>}
+        )})}
       </TableBody>
     </Table>
         <Box display='flex' justifyContent='center' sx={{pt: 1}}>
@@ -147,7 +142,7 @@ const AccountProfileDetails = ({homes, setHome}) => {
                 value={name}
                 variant="outlined"
               />
-          <PlacesAutocomplete onSelect = {(val) => {addHome(markers, val)}} />
+          <PlacesAutocomplete onSelect = {(val, results) => {addHome(markers, val, results)}} />
         </Box>
 		    <Box display='flex' justifyContent='center' sx={{pt: 1, pb: 2}}>
           <Map height='48rem' width='20rem' zoom='11'markers={[]} homes={markers} />

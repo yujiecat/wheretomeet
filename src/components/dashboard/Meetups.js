@@ -31,7 +31,6 @@ function tileClassName({ date, view }) {
   }
 }
 const Meetups = (props) => {
-
   const [date, setDate] = React.useState('No date selected.');
   const [events, setEvents] = React.useState(new Map());
   const [dayEvent, setDayEvent] = React.useState([]);
@@ -47,18 +46,18 @@ const Meetups = (props) => {
   // TODO: grab all event times here.
 
   const grabEvents = async () => {
-    // await axios.get('/user/events/' + encodeURIComponent(loggedInUser.userId))
-    // .then(response => {
-    //   if(response.status === 200) {
-    //     return response.data;
-    //   } else alert('error retrieving events');
-    // })
-    // .then(data => {
-    //   console.log(data);
-    // })
-    // .catch(error => {
-    //   console.log('error retrieving events: ' + error);
-    // })
+    await axios.get('/user/events/' + encodeURIComponent(loggedInUser.userId))
+    .then(response => {
+      if(response.status === 200) {
+        return response.data;
+      } else alert('error retrieving events');
+    })
+    .then(data => {
+      console.log(data);
+    })
+    .catch(error => {
+      console.log('error retrieving events: ' + error);
+    })
   }
 
   React.useEffect(() => {
