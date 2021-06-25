@@ -1,30 +1,17 @@
 import React from 'react';
 import Box from '@material-ui/core/Box';
-import Checkbox from '@material-ui/core/Checkbox';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Typography from '@material-ui/core/Typography';
-import { bannerCheckboxStylesHook } from '@mui-treasury/styles/checkbox/banner';
 import FormGroup from '@material-ui/core/FormGroup';
+import VoteLocation from './VoteLocation.js';
+import { bannerCheckboxStylesHook } from '@mui-treasury/styles/checkbox/banner';
 
 const Voting = ({suggestions}) => {
   // grab data for voting from suggestions here
   // map each formcontrollabel to one suggestion
   // button to display results
-  const checkboxStyles = bannerCheckboxStylesHook.useCheckbox();
-  const formControlLabelStyles = bannerCheckboxStylesHook.useFormControlLabel();
   const subtitleStyles = bannerCheckboxStylesHook.useSubtitle();
-
-  let votesCocoru = 0;
-
-  const handleChange = (event) => {
-    console.log('event checked? ', event.target.checked);
-    if(event.target.checked)
-      votesCocoru++;
-    else votesCocoru--;
-    console.log(votesCocoru);
-  }
-
-  const hasSuggestions = (suggestions.length > 0);
+  const markers = Array.from(suggestions);
+  const hasSuggestions = (markers.length > 0);
 
   return (
     <Box display="grid">
@@ -32,21 +19,10 @@ const Voting = ({suggestions}) => {
         Vote for which suggested places you'd like to go to!
       </Typography>
       <FormGroup>
-      {hasSuggestions ? suggestions.map((suggestion) => {
-        return(
-          <FormControlLabel
-          key={suggestion.info.name}
-          name={suggestion.info.name}
-          onChange={handleChange}
-          classes={formControlLabelStyles}
-          control={<Checkbox color="primary" classes={checkboxStyles} />}
-          label={
-            <>
-              <Typography component="span" classes={subtitleStyles}>
-                {suggestion.info.name}
-              </Typography>
-            </>
-          }/>
+      {hasSuggestions ? markers.map((suggestion) => {
+          console.log('suggestion: ', suggestion);
+
+        return(<VoteLocation location={suggestion}/>
         )}) : <></>}
         </FormGroup>
     </Box>

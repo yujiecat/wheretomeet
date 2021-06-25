@@ -7,6 +7,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { Link } from 'react-router-dom';
 import CreateGroup from 'src/components/homepage/CreateGroup.js';
+import { Helmet } from 'react-helmet';
 
 function Copyright() {
   return (
@@ -46,6 +47,9 @@ export default function Homepage() {
       <CssBaseline />
       <main>
         {/* Hero unit */}
+        <Helmet>
+          <title>Where to Meet</title>
+        </Helmet>
         <div className={classes.heroContent}>
           <Container maxWidth="sm">
             <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>

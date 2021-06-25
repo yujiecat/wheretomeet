@@ -35,9 +35,12 @@ function Maps(props) {
 		height: width
 	};
 
+	console.log('markers: ', markers)
+
 	const hasHomes = homes.length > 0;
 
 	const suggestions = Array.from(markers);
+	console.log('suggestions: ', suggestions);
 	const home = Array.from(homes);
 
 	// loads map

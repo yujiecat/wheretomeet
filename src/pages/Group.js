@@ -39,7 +39,7 @@ const GroupDashboard = () => {
   const { groupId } = useParams();
   const [group, setGroup] = React.useState([]);
   const loggedInUser = sessionStorage.getItem('encodedUserId');
-	const [markers, setMarkers] = React.useState([]);
+	const [markers, setMarkers] = React.useState(new Map());
 	// eslint-disable-next-line no-unused-vars
 	const [homeLocations, setHomeLocations] = React.useState([]);
 
@@ -125,8 +125,9 @@ const GroupDashboard = () => {
         venuePhoneNumer: "911",
         venueId: place[0].place_id,
       }
-  
-    markers.set(place[0].place_id, venue);
+      markers.set(place[0].place_id, venue);
+      let newMap = new Map(markers);
+      setMarkers(newMap); 
     })
     .catch((error) =>{
         console.log('error: ', error);
@@ -190,7 +191,7 @@ const GroupDashboard = () => {
       <h1>{group.groupId}</h1>
 		<Box display='flex' justifyContent='center' sx={{pt: 3}}>
       <Box><Maps height='60rem' width='25rem' zoom='11' markers={markers} coords={{lat: 49.1666, lng: -123.1336}} homes={homeLocations} /></Box>
-      <Box><TimeSelector /></Box>
+      <Box><TimeSelector group={groupId}/></Box>
 		</Box>
         <Box sx={{ pt: 3 }}>
           <Grid

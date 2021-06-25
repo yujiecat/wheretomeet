@@ -5,12 +5,22 @@ import { Stomp } from '@stomp/stompjs';
 const socket = new SockJs("http://localhost:8080/stomp", {}, {CheckOrigin: () => false});
 
 socket.onopen = () => {
-  console.log('connected');
+  console.log('Socket connected');
 };
 socket.onclose = () => {
-  console.log('disconnected');
+  console.log('Socket disconnected');
 }
 
-const stompClient = Stomp.over(socket);
+var stompClient = Stomp.over(socket);
+
+stompClient.onConnect = function(frame) {
+  console.log('StompClient connected');
+}
+
+stompClient.onDisconnect = function(frame) {
+  console.log('StompClient disconnected')
+}
+
+stompClient.activate();
 
 export default stompClient;

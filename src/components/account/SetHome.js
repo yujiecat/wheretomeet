@@ -17,6 +17,7 @@ import { TextField } from '@material-ui/core';
 import Map from 'src/components/GoogleMaps/Map.js';
 import PlacesAutocomplete from 'src/components/GoogleMaps/AutoComplete.js';
 import axios from 'axios';
+import HomeLocation from './HomeLocation.js';
 
 const AccountProfileDetails = ({homes, setHome}) => {
   const [markers, setMarkers] = useState(homes);
@@ -24,12 +25,16 @@ const AccountProfileDetails = ({homes, setHome}) => {
   const loggedInUser = sessionStorage.getItem('encodedUserId');
 
   const handleChange = (event) => {
+      console.log(event);
       setName(event.value);
+      console.log(name);
   };
 
   React.useEffect(() => {
     setMarkers(homes);
   }, [homes])
+    const hasMarkers = markers.length > 0;
+
 
  	const addHome = (markers, val, results) => {
     console.log(name);
@@ -39,7 +44,7 @@ const AccountProfileDetails = ({homes, setHome}) => {
       homeAddress: results[0].formatted_address,
     }
 
-    console.log(newHome)
+  console.log('newhome: ', newHome)
 
     if(markers.length < 3){
       axios.put('/user/' + loggedInUser + '/add/homes', newHome)
@@ -60,32 +65,6 @@ const AccountProfileDetails = ({homes, setHome}) => {
 		console.log('markers', markers);
 	}
 
-  const deleteHome = () => {
-    if(loggedInUser != null) {
-      const home = {
-        homeName: 'Elmo\'s',
-        homeCoordinates: [49, 123.124675],
-        homeAddress: '123 Sesame Street',
-      };
-      const deleteHomeUri = '/user/' + loggedInUser + '/delete/homes/';
-
-      axios.put(deleteHomeUri, home)
-      .then(response => {
-        if(response.status === 200) {
-          alert("Home removed.");
-          setHome();
-        } 
-        else {
-          alert("Cannot find home to remove.");
-        }
-      })
-      .catch(error => {
-        console.log(error);
-      });
-    } else {
-      alert('cannot locate userId');
-  }
-}
 
 // TODO: styling
 
@@ -109,27 +88,8 @@ const AccountProfileDetails = ({homes, setHome}) => {
         </TableRow>
       </TableHead>
       <TableBody>
-        {markers.map((m) => {
-          return(
-          <TableRow key={m.coords}>
-              {/* list of home locations */}
-              <TableCell>
-                <Box>
-                  <Typography fontSize={24} color='black' ml={2} >{m.homeName}</Typography>
-                </Box>
-              </TableCell>
-
-              {/* Options Button*/}
-              <TableCell align='right'>
-                <Box>
-                  <IconButton onClick={() => deleteHome()} >
-                    <ClearIcon/>
-                  </IconButton>
-                </Box>
-              </TableCell>
-
-          </TableRow>
-        )})}
+        { hasMarkers ? markers.map((m) => {
+          return(<HomeLocation m={m} user={loggedInUser} setHome={setHome}/>)}):<></>}
       </TableBody>
     </Table>
         <Box display='flex' justifyContent='center' sx={{pt: 1}}>
@@ -137,8 +97,9 @@ const AccountProfileDetails = ({homes, setHome}) => {
                 helperText="Home Name"
                 label="Home Name"
                 name="name"
-                onChange={handleChange}
-                required
+                onInput = {e => setName(
+                  e.target.value
+                )}
                 value={name}
                 variant="outlined"
               />
