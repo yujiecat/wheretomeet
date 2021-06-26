@@ -40,7 +40,7 @@ const Meetups = (props) => {
     setDate(date.toDateString());
     const today = [];
     events.forEach(element => {
-      let day = new Date(element.startTime() * 1000);
+      let day = new Date(element.startTime * 1000);
       if(isSameDay(day, date)){
         today.push(element);
       }
@@ -53,7 +53,7 @@ const Meetups = (props) => {
   // TODO: grab all event times here.
 
   const grabEvents = async () => {
-    await axios.get('/user/events/' + encodeURIComponent(loggedInUser.userId))
+    await axios.get('/user/events/' + loggedInUser)
     .then(response => {
       if(response.status === 200) {
         return response.data;

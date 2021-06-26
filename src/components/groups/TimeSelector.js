@@ -45,7 +45,7 @@ const TimeSelector = ({group}) => {
     console.log('events: ' + events);
     if(events !== null){
       events.forEach(element => {
-        let day = new Date(element.startTime() * 1000);
+        let day = new Date(element.startTime * 1000);
         if(isSameDay(day, date)){
           today.push(element);
         }
@@ -57,18 +57,21 @@ const TimeSelector = ({group}) => {
     .then(response => {
       if(response.status === 200) {
         console.log('timeframes retrieved successfully');
-      } else {
+        return response.data;
+      } 
+      else {
         console.log('error getting timeframes (not 200)');
-    }})
+      }
+    })
     .then(data => {
       if(data !== null){
-      data.forEach(element => {
-        let day = new Date(element.startTime()*1000);
-        if(isSameDay(day, date)){
-          today.push(element);
-        }
-      })
-    }
+        data.forEach(element => {
+          let day = new Date(element.startTime*1000);
+          if(isSameDay(day, date)){
+            today.push(element);
+          }
+        })
+      }
     })
     .catch(error => {
       console.log('error retrieving events: ' + error);
@@ -76,12 +79,14 @@ const TimeSelector = ({group}) => {
   }
 
   const onChange = async (time) => {
+    
     const freeTime = {
       startTime: time[0]._d.getTime(),
       endTime: time[1]._d.getTime(),
       userId: loggedInUser,
     }
 
+    console.log(freeTime)
     await axios.put(`/group/${group}/add/timeframe`, freeTime)
     .then(response => {
       if(response.status === 200) {
