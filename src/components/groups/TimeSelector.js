@@ -7,6 +7,7 @@ import {
   ListItem,
   ListItemText,
   Container,
+  Typography,
 } from '@material-ui/core';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
@@ -16,6 +17,7 @@ import 'antd/dist/antd.css';
 import moment from 'moment';
 import { differenceInCalendarDays } from 'date-fns';
 import axios from 'axios';
+import ConfirmEvent from './ConfirmEvent.js';
 
 function isSameDay(a, b) {
   return differenceInCalendarDays(a, b) === 0;
@@ -32,15 +34,17 @@ function tileClassName({ date, view }) {
     }
   }
 }
-const TimeSelector = ({group}) => {
-  const [date, setDate] = React.useState('No date selected.');
+const TimeSelector = ({group, groupId}) => {
+  const [date, setDate] = React.useState(null);
   const [events, setEvents] = React.useState([]);
   const [dayEvent, setDayEvent] = React.useState([]);
+  const [dateString, setDateString] = React.useState('No date selected.');
   const loggedInUser = sessionStorage.getItem('encodedUserId');
-
+  var groupOwner = sessionStorage.getItem('userId') === group.groupOwner.userId;
 
   const handleClickDay = async (date) =>{
-    setDate(date.toDateString());
+    setDate(date);
+    setDateString(date.toDateString());
     const today = [];
     console.log('events: ' + events);
     if(events !== null){
@@ -53,7 +57,7 @@ const TimeSelector = ({group}) => {
     }
     setDayEvent(today);
 
-    await axios.get(`/group/${group}/timeframes`)
+    await axios.get(`/group/${groupId}/timeframes`)
     .then(response => {
       if(response.status === 200) {
         console.log('timeframes retrieved successfully');
@@ -79,6 +83,13 @@ const TimeSelector = ({group}) => {
   }
 
   const onChange = async (time) => {
+    console.log(date);
+    const day = date.getDate();
+    const month = date.getMonth();
+    time[0].setDate(day);
+    time[0].setDate(month);
+    time[1].setDate(day);
+    time[1].setDate(month);
     
     const freeTime = {
       startTime: time[0]._d.getTime(),
@@ -147,7 +158,7 @@ const TimeSelector = ({group}) => {
               sx={{
                 p: 2
               }}
-              subheader={date}
+              subheader={dateString}
               title="Events">
             </CardHeader>
             <Divider />
@@ -162,6 +173,8 @@ const TimeSelector = ({group}) => {
           </Card>
       </Grid>
 	  <TimePicker.RangePicker format={'HH:mm'} minuteStep={15} use12Hours={true} onChange={onChange}/>
+    <Typography> Confirm Event Date</Typography>
+      {groupOwner? <ConfirmEvent group={groupId}/> : <></>}
      </Container>
   </Card>
 )};

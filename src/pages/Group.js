@@ -191,7 +191,7 @@ const GroupDashboard = () => {
       <h1>{group.groupId}</h1>
 		<Box display='flex' justifyContent='center' sx={{pt: 3}}>
       <Box><Maps height='60rem' width='25rem' zoom='11' markers={markers} coords={{lat: 49.1666, lng: -123.1336}} homes={homeLocations} /></Box>
-      <Box><TimeSelector group={groupId}/></Box>
+      <Box><TimeSelector group={group} groupId={groupId}/></Box>
 		</Box>
         <Box sx={{ pt: 3 }}>
           <Grid
