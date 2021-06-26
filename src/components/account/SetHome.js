@@ -9,10 +9,7 @@ import {
   TableRow,
   TableCell,
   TableBody,
-  Typography,
-  IconButton
 } from '@material-ui/core';
-import ClearIcon from '@material-ui/icons/Clear';
 import { TextField } from '@material-ui/core';
 import Map from 'src/components/GoogleMaps/Map.js';
 import PlacesAutocomplete from 'src/components/GoogleMaps/AutoComplete.js';
