@@ -83,6 +83,10 @@ export default function AddMember({groupId}) {
           alert('Error adding friends :(');
         }
       })
+<<<<<<< HEAD
+=======
+
+>>>>>>> b9c90236446cb14fdc36449d9b001ec14876798d
       axios.put('/groupsList/' + friendId + '/add/' + groupId)
       .then(response => {
         if(response.status === 200) {

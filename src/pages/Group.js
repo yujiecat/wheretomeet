@@ -217,7 +217,7 @@ const GroupDashboard = () => {
         <Box>
 		  <MessageList groupId = {groupId} />
       <Voting suggestions={markers} />
-      <AddMember groupId={groupId}/>
+      <AddMember groupId = {groupId} />
         </Box>
       </Container>
     </Box>
