@@ -71,7 +71,8 @@ export default function AddMember({groupId}) {
 
   const handleSubmit = () => {
     selectedFriends.forEach((friend) => {
-      axios.put('/group/' + groupId + '/add/' + friend)
+      const friendId = encodeURIComponent(friend);
+      axios.put('/group/' + groupId + '/add/' + friendId)
       .then(response => {
         if(response.status === 200) {
           alert('Friends added to the group!');
@@ -82,7 +83,7 @@ export default function AddMember({groupId}) {
           alert('Error adding friends :(');
         }
       })
-      axios.put('/groupsList/' + friend + '/add/' + groupId)
+      axios.put('/groupsList/' + friendId + '/add/' + groupId)
       .then(response => {
         if(response.status === 200) {
           alert('group added to user\'s group list');
