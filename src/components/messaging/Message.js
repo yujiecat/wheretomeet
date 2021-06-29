@@ -34,7 +34,7 @@ export default function Message(props) {
       showTimestamp
     } = props;
 
-	const msg = DOMPurify.sanitize(data.message);
+	const msg = DOMPurify.sanitize(data);
 
     const friendlyTimestamp = moment(data.timestamp).format('LLLL');
     return (

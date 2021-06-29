@@ -4,12 +4,14 @@ import moment from 'moment';
 import Compose from './Compose.js';
 import stompClient from 'src/helpers/StompClient.js';
 import { useParams } from 'react-router';
+import axios from 'axios';
 
 // used to determine who sent message
 const MY_USER_ID = 'apple';
 
 export default function MessageList({groupId}) {
   const [messages, setMessages] = useState([])
+  const loggedInUser = sessionStorage.getItem('encodedUserId');
 
     console.log('messages from: ', groupId);
 
@@ -33,22 +35,27 @@ export default function MessageList({groupId}) {
 
   // need to modify the flow of how we grab and render messages below
 
-  const getMessages = () => {
-     var tempMessages = [
-        {
-          id: 1,
-          author: 'apple',
-          message: 'Hello world! This is a long message that will hopefully get wrapped by our message bubble component! We will see how well it works.',
-          timestamp: new Date().getTime()
-        },
-        {
-          id: 2,
-          author: 'orange',
-          message: 'It looks like it wraps exactly as it is supposed to. Lets see what a reply looks like!',
-          timestamp: new Date().getTime()
-        },
-      ]
-      setMessages([...messages, ...tempMessages])
+  const getMessages = async () => {
+     
+    await axios.get('/messageboard/' + groupId + '/recentMessages')
+    .then((response) => {
+       if(response.status === 200) {
+          return response.data;
+        }
+        else {
+          alert('error retrieving group data');
+        }
+      })
+      .then(data => {
+        setMessages(data)
+      })
+      .catch(error => {
+        console.log('error retrieving group data: ' + error);
+      })
+  }
+
+  const addMessage = (message) => {
+    setMessages([...messages, message]);
   }
 
   const renderMessages = () => {
@@ -60,7 +67,7 @@ export default function MessageList({groupId}) {
       let previous = messages[i - 1];
       let current = messages[i];
       let next = messages[i + 1];
-      let isMine = current.author === MY_USER_ID;
+      let isMine = current.userId === loggedInUser;
       let currentMoment = moment(current.timestamp);
       let prevBySameAuthor = false;
       let nextBySameAuthor = false;
@@ -92,6 +99,8 @@ export default function MessageList({groupId}) {
         }
       }
 
+      console.log(current);
+
       tempMessages.push(
         <Message
           key={i}
@@ -99,7 +108,7 @@ export default function MessageList({groupId}) {
           startsSequence={startsSequence}
           endsSequence={endsSequence}
           showTimestamp={showTimestamp}
-          data={current}
+          data={current.message}
         />
       );
 
@@ -114,7 +123,7 @@ export default function MessageList({groupId}) {
       <div className="message-list">
         <div className="message-list-container">{renderMessages()}</div>
 		{/* <Compose message={message}/> */}
-    <Compose groupId = {groupId}/>
+    <Compose groupId = {groupId} callback={addMessage}/>
       </div>
     );
 }
