@@ -22,15 +22,14 @@ const AccountProfileDetails = ({homes, setHome}) => {
   const loggedInUser = sessionStorage.getItem('encodedUserId');
 
   const handleChange = (event) => {
-      console.log(event);
       setName(event.value);
-      console.log(name);
   };
 
   React.useEffect(() => {
     setMarkers(homes);
   }, [homes])
-    const hasMarkers = markers.length > 0;
+  
+  const hasMarkers = markers.length > 0;
 
 
  	const addHome = (markers, val, results) => {

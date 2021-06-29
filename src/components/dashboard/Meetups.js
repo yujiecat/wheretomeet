@@ -60,6 +60,7 @@ const Meetups = (props) => {
       } else alert('error retrieving events');
     })
     .then(data => {
+      console.log('events ', data);
       setEvents(data);
     })
     .catch(error => {

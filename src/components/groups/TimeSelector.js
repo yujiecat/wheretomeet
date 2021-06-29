@@ -40,7 +40,12 @@ const TimeSelector = ({group, groupId}) => {
   const [dayEvent, setDayEvent] = React.useState([]);
   const [dateString, setDateString] = React.useState('No date selected.');
   const loggedInUser = sessionStorage.getItem('encodedUserId');
-  var groupOwner = sessionStorage.getItem('userId') === group.groupOwner.userId;
+  const groupLoaded = Object.entries(group).length > 0;
+  var groupOwner = false;
+  
+  if(groupLoaded) {
+    groupOwner = sessionStorage.getItem('userId') === group.groupOwner.userId;
+  }
 
   const handleClickDay = async (date) =>{
     setDate(date);
@@ -83,14 +88,15 @@ const TimeSelector = ({group, groupId}) => {
   }
 
   const onChange = async (time) => {
-    console.log(date);
-    const day = date.getDate();
-    const month = date.getMonth();
-    time[0].setDate(day);
-    time[0].setDate(month);
-    time[1].setDate(day);
-    time[1].setDate(month);
-    
+    if(date !== null){
+      const day = date.getDate();
+      const month = date.getMonth();
+      time[0]._d.setDate(day);
+      time[0]._d.setMonth(month);
+      time[1]._d.setDate(day);
+      time[1]._d.setMonth(month);
+    }
+
     const freeTime = {
       startTime: time[0]._d.getTime(),
       endTime: time[1]._d.getTime(),
@@ -98,7 +104,7 @@ const TimeSelector = ({group, groupId}) => {
     }
 
     console.log(freeTime)
-    await axios.put(`/group/${group}/add/timeframe`, freeTime)
+    await axios.put(`/group/${groupId}/add/timeframe`, freeTime)
     .then(response => {
       if(response.status === 200) {
         console.log('timeframe added successfully');
@@ -174,7 +180,7 @@ const TimeSelector = ({group, groupId}) => {
       </Grid>
 	  <TimePicker.RangePicker format={'HH:mm'} minuteStep={15} use12Hours={true} onChange={onChange}/>
     <Typography> Confirm Event Date</Typography>
-      {groupOwner? <ConfirmEvent group={groupId}/> : <></>}
+      {groupOwner? <ConfirmEvent group={group}/> : <></>}
      </Container>
   </Card>
 )};

@@ -12,7 +12,8 @@ import { getDetails } from 'use-places-autocomplete';
 import axios from 'axios';
 import Voting from 'src/components/groups/Voting.js';
 import { useParams } from 'react-router-dom';
-import TimeSelector from 'src/components/groups/TimeSelector.js'
+import TimeSelector from 'src/components/groups/TimeSelector.js';
+import AddMember from 'src/components/groups/AddMember.js';
 
 // temporarily here before api hooks
 
@@ -37,7 +38,7 @@ const GroupDashboard = () => {
 	// also grab user's home locations here
 
   const { groupId } = useParams();
-  const [group, setGroup] = React.useState([]);
+  const [group, setGroup] = React.useState({});
   const loggedInUser = sessionStorage.getItem('encodedUserId');
 	const [markers, setMarkers] = React.useState(new Map());
 	// eslint-disable-next-line no-unused-vars
@@ -216,6 +217,7 @@ const GroupDashboard = () => {
         <Box>
 		  <MessageList groupId = {groupId} />
       <Voting suggestions={markers} />
+      <AddMember />
         </Box>
       </Container>
     </Box>
