@@ -41,7 +41,7 @@ function Maps(props) {
 	// loads map
 	const { isLoaded } = useJsApiLoader({
 		id: 'google-map-script',
-		googleMapsApiKey: "AIzaSyA5N_RMyoxca6XTwqQt6QBRFSXO91t_jgw"
+		googleMapsApiKey: ""
 	})
 	// eslint-disable-next-line
 	const [map, setMap] = React.useState(null);
